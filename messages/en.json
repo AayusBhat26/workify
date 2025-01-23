@@ -1,0 +1,46 @@
+{
+    "home":{
+        "title": "Welcome User",
+        "message": "this is the welcome page."
+    }, 
+    "AUTH":{
+        "EMAIL" : "Email", 
+        "PASSWORD" : "Password",      
+        "USERNAME" : "Username",
+        "SIGN_IN":{
+            "TITLE": "Sign In",
+            "MESSAGE": "Sign in to your account", 
+            "WELCOME": "Welcome back, please login to your account.",
+            "SUBMIT_BUTTON": "Sign In",
+            "FORGOT_PASSWORD": "Forgot Password?",
+            "DONT_HAVE_ACCOUNT": {
+                "FIRST": "New here ?", 
+                "SECOND": "Sign Up"
+            }, 
+            "PROVIDERS":{
+                "GOOGLE": "Sign in with Google",
+                "APPLE": "Sign in with Apple",
+                "GITHUB": "Sign in with Github"
+            }
+        },
+        "SIGN_UP":{
+            "TITLE": "Sign Up",
+            "MESSAGE": "Sign Up to your account", 
+            "WELCOME": "Welcome to Workify, let us start with creation of your account.",
+            "SUBMIT_BUTTON": "Sign Up",
+            "HAVE_ACCOUNT": {
+                "FIRST": "Already been here ?", 
+                "SECOND": "Sign In"
+            }, 
+            "TERMS":{
+                "FIRST": "By signing up, you agree to our", 
+                "SECOND": "Terms of Service"
+            },            
+            "PROVIDERS":{
+                "GOOGLE": "Sign Up with Google",
+                "APPLE": "Sign Up with Apple",
+                "GITHUB": "Sign Up with Github"
+            }
+        }
+    }
+}
