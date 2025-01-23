@@ -1,46 +1,66 @@
 {
-    "home":{
+    "Index": {
         "title": "Welcome User",
         "message": "this is the welcome page."
-    }, 
-    "AUTH":{
-        "EMAIL" : "Email", 
-        "PASSWORD" : "Password",      
-        "USERNAME" : "Username",
-        "SIGN_IN":{
+    },
+    "AUTH": {
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "USERNAME": "Username",
+        "NAME": "Name",
+        "SURNAME": "Surname",
+        "SIGN_IN": {
             "TITLE": "Sign In",
-            "MESSAGE": "Sign in to your account", 
+            "MESSAGE": "Sign in to your account",
             "WELCOME": "Welcome back, please login to your account.",
             "SUBMIT_BUTTON": "Sign In",
             "FORGOT_PASSWORD": "Forgot Password?",
             "DONT_HAVE_ACCOUNT": {
-                "FIRST": "New here ?", 
+                "FIRST": "New here ?",
                 "SECOND": "Sign Up"
-            }, 
-            "PROVIDERS":{
+            },
+            "PROVIDERS": {
                 "GOOGLE": "Sign in with Google",
                 "APPLE": "Sign in with Apple",
                 "GITHUB": "Sign in with Github"
             }
         },
-        "SIGN_UP":{
+        "SIGN_UP": {
             "TITLE": "Sign Up",
-            "MESSAGE": "Sign Up to your account", 
+            "MESSAGE": "Sign Up to your account",
             "WELCOME": "Welcome to Workify, let us start with creation of your account.",
             "SUBMIT_BUTTON": "Sign Up",
             "HAVE_ACCOUNT": {
-                "FIRST": "Already been here ?", 
+                "FIRST": "Already been here ?",
                 "SECOND": "Sign In"
-            }, 
-            "TERMS":{
-                "FIRST": "By signing up, you agree to our", 
+            },
+            "TERMS": {
+                "FIRST": "By signing up, you agree to our",
                 "SECOND": "Terms of Service"
-            },            
-            "PROVIDERS":{
+            },
+            "PROVIDERS": {
                 "GOOGLE": "Sign Up with Google",
                 "APPLE": "Sign Up with Apple",
                 "GITHUB": "Sign Up with Github"
             }
+        }
+    },
+    "MESSAGES": {
+        "ERRORS": {
+            "DEFAULT": "Try one more time, or try again later.",
+            "USERNAME_EXISTS": "This username `already` exists, try with another one.",
+            "EMAIL_EXISTS": "This email `already` exists, try with another one.",
+            "DB_ERROR": "Application is facing some errors in the backend.",
+            "WRONG_DATA": "Invalid data, make sure to double check the data before submitting.",
+            "USER_DOES_NOT_EXISTS": "User does not exists, provide a valid email",
+            "WRONG_PASSWORD": "Wrong password, if you have forgot the password, you can reset it."
+        },
+        "SUCCESS": {
+            "SIGN_UP": "Account created with no issues.",
+            "SIGN_IN": "You have been logged in"
+        },
+        "PENDING": {
+            "LOADING": "Loading"
         }
     }
 }

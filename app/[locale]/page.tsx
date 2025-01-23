@@ -1,18 +1,25 @@
-import { useTranslations } from 'next-intl';
+"use client";
+import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
+import { Button } from "@/components/ui/button";
+import { signOut, useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import React from "react"; // Import React to use React.use()
 
-export default async function Home({
-  params,
-}: {
-  params: { locale: string };
-}) {
-  // Await the locale from params
-  const { locale } = params;
+export default function Home({ params }: { params: { locale: string } }) {
 
-  const t = useTranslations('home'); 
+  const t = useTranslations("Index");
+  const session = useSession();
+
+  const logoutHandler = () => {
+    signOut({
+      callbackUrl: `${window.location.origin}/sign-in`,
+    });
+  };
+
   return (
-    <div>
-      <h1>{t('title')}</h1>
-      <p>{t('message')}</p>
-    </div>
+    <>
+      <Button onClick={logoutHandler}>Logout</Button>
+      <ThemeSwitcher />
+    </>
   );
 }

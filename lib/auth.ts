@@ -38,6 +38,11 @@ export const authOptions: NextAuthOptions = {
                     type: "text",
                     placeholder: "Name",
                 },
+                username: {
+                    label: "username",
+                    type: "text",
+                    placeholder: "Username",
+                },
                 email: {
                     label: "Email",
                     type: "text",
@@ -85,6 +90,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.name = token.name;
                 session.user.email = token.email;
                 session.user.image = token.picture;
+                session.user.username = token.usernam;
             }
 
             const user = await db.user.findUnique({
@@ -97,6 +103,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.image = user.image;
                 session.user.name = user.name?.toLowerCase();
                 session.user.email = user.email;
+                session.user.username = user.username;
             }
 
             return session;
@@ -115,6 +122,7 @@ export const authOptions: NextAuthOptions = {
                         name: dbuser.name,
                         email: dbuser.email,
                         picture: dbuser.image,
+                        usernam: dbuser.username,
                     };
                 }
             }

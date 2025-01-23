@@ -3,6 +3,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { SignUpContent } from "./SignUpContent";
+import { SignInContent } from "./SignInContent";
 
 interface Props {
   signInCard?: boolean;
@@ -28,7 +29,7 @@ export const AuthCard = ({ signInCard }: Props) => {
             {signInCard ? `${t("SIGN_IN.MESSAGE")}` : t("SIGN_UP.MESSAGE")}
           </CardDescription>
         </CardHeader>
-        {signInCard ? <></>: <SignUpContent />}
+        {signInCard ? <SignInContent/>: <SignUpContent />}
       </Card>
       <p className="text-sm">
         {signInCard
