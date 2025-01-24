@@ -5,6 +5,7 @@ import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import AppleProvider from "next-auth/providers/apple";
+import {generateFromEmail} from "unique-username-generator";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
@@ -21,6 +22,17 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            async profile(profile) {
+                const username = generateFromEmail(profile.email, 5);
+                return{
+                    id: profile.sub, 
+                    username,
+                    name: profile.given_name ? profile.given_name : profile.name,
+                    surname: profile.surname ? profile.surname : "",
+                    email: profile.email,
+                    image: profile.picture,
+                }
+            },
         }),
         GitHubProvider({
             clientId: process.env.GITHUB_CLIENT_ID!,
@@ -95,15 +107,13 @@ export const authOptions: NextAuthOptions = {
 
             const user = await db.user.findUnique({
                 where: {
-                    id: token.id as string,
+                    id: token.id ,
                 },
             });
 
             if (user) {
                 session.user.image = user.image;
-                session.user.name = user.name?.toLowerCase();
-                session.user.email = user.email;
-                session.user.username = user.username;
+                session.user.moveToDashboard = user.moveToDashboard;
             }
 
             return session;

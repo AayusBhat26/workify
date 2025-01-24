@@ -50,22 +50,22 @@ export const SignInContent = () => {
 
       if (account.error) {
         toast({
-          title: m(`ERRORS.${account.error}`), // Use the error key from MESSAGES
+          title: m(`ERRORS.${account.error}`),
           variant: "destructive",
         });
       } else {
         toast({
-          title: m("SUCCESS.SIGN_IN"), // Success message
+          title: m("SUCCESS.SIGN_IN"),
         });
-        router.push("/onboarding");
+        router.push("/dashboard");
         router.refresh();
       }
     } catch (err) {
-      let errMsg = m("ERRORS.DEFAULT"); // Default error message
+      let errMsg = m("ERRORS.DEFAULT");
       if (typeof err === "string") {
-        errMsg = m(`ERRORS.${err}`); // Use the error key from MESSAGES
+        errMsg = m(`ERRORS.${err}`);
       } else if (err instanceof Error) {
-        errMsg = m(`ERRORS.${err.message}`); // Use the error key from MESSAGES
+        errMsg = m(`ERRORS.${err.message}`);
       }
       toast({
         title: errMsg,
@@ -79,7 +79,7 @@ export const SignInContent = () => {
     <CardContent>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
-          <ProviderSignInButtons signInCard disabled={isLoading} />
+          <ProviderSignInButtons signInCard onLoading={setIsLoading} />
           <div className="space-y-1.5">
             <FormField
               control={form.control}
@@ -124,10 +124,7 @@ export const SignInContent = () => {
             </Button>
             <p className="text-xs text-center text-muted-foreground">
               {t("SIGN_IN.DONT_HAVE_ACCOUNT.FIRST")}{" "}
-              <Link
-                href="/sign-up"
-                className="text-primary hover:underline"
-              >
+              <Link href="/sign-up" className="text-primary hover:underline">
                 {t("SIGN_IN.DONT_HAVE_ACCOUNT.SECOND")}
               </Link>
             </p>

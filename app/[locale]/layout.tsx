@@ -7,7 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 
-const locales = ["en"];
+const locales = ["en", "hi"] as const;
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,34 +16,44 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  // Await the locale from params
-  const { locale } = params;
+  // Validate locale
+  if (!locales.includes(locale as any)) notFound();
 
-  // Validate the locale
-  const isValidLocale = locales.some((current) => current === locale);
-  if (!isValidLocale) notFound();
-
-  // Fetch messages for the locale
-  const messages = await getMessages({ locale });
+  // Get messages and prevent translation
+  // @ts-ignore - TypeScript might complain about the locale type
+  const messages = await getMessages(locale);
 
   return (
-    <html lang={locale}>
+    <html 
+      lang={locale} 
+      translate="no" 
+      suppressHydrationWarning
+    >
+      <head>
+        <meta name="google" content="notranslate" />
+      </head>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={messages}
+          timeZone="Asia/Kolkata" // Set appropriate timezone
+        >
           <AuthProvider>
             <ThemeProvider
-              attribute={"class"}
+              attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
             >
-              <Toaster/>
-              {children}
+              <Toaster />
+              <div suppressHydrationWarning>
+                {children}
+              </div>
             </ThemeProvider>
           </AuthProvider>
         </NextIntlClientProvider>

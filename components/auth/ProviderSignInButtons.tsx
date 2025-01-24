@@ -8,9 +8,11 @@ import { GithubLogo } from "../svg/GithubLogo";
 export const ProviderSignInButtons = ({
   signInCard,
   disabled,
+  onLoading,
 }: {
   signInCard?: boolean;
   disabled?: boolean;
+  onLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const t = useTranslations("AUTH");
 
@@ -18,7 +20,9 @@ export const ProviderSignInButtons = ({
     <div className="flex flex-col gap-3">
       {/* Google Button */}
       <ProviderSignInButton
+        onLoading={onLoading}
         disabled={disabled}
+        providerName="google"
         className="flex w-full items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 sm:text-base"
       >
         <GoogleLogo className="mr-3 h-5 w-5" />
@@ -28,7 +32,9 @@ export const ProviderSignInButtons = ({
       </ProviderSignInButton>
 
       {/* Apple Button */}
-      <ProviderSignInButton
+      {/* <ProviderSignInButton
+        onLoading={onLoading}
+        providerName="google"
         disabled={disabled}
         className="flex w-full items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 sm:text-base"
       >
@@ -36,11 +42,13 @@ export const ProviderSignInButtons = ({
         {signInCard
           ? t("SIGN_IN.PROVIDERS.APPLE")
           : t("SIGN_UP.PROVIDERS.APPLE")}
-      </ProviderSignInButton>
+      </ProviderSignInButton> */}
 
       {/* GitHub Button */}
       <ProviderSignInButton
+        onLoading={onLoading}
         disabled={disabled}
+        providerName="github"
         className="flex w-full items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 sm:text-base"
       >
         <GithubLogo className="mr-3 h-5 w-5" />
