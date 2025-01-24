@@ -51,7 +51,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               <Toaster />
-              <div suppressHydrationWarning>
+              <div suppressHydrationWarning className="dark:bg-gray-950 dark:border-gray-800">
                 {children}
               </div>
             </ThemeProvider>

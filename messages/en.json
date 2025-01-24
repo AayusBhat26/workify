@@ -1,22 +1,30 @@
 {
     "Index": {
+        "LOGOUT": "Log Out",
         "title": "Welcome User",
-        "message": "this is the welcome page."
+        "CONTINUE": "Continue",
+        "WELCOME_MESSAGE": "Welcome to Workify",
+        "message": "This is the welcome page."
     },
     "AUTH": {
+        "COMMON": {
+            "OR_CONTINUE_WITH": "Or continue with"
+        },
         "EMAIL": "Email",
         "PASSWORD": "Password",
         "USERNAME": "Username",
         "NAME": "Name",
+        "SHOW_PASSWORD":"Show Password",
         "SURNAME": "Surname",
         "SIGN_IN": {
             "TITLE": "Sign In",
             "MESSAGE": "Sign in to your account",
             "WELCOME": "Welcome back, please login to your account.",
             "SUBMIT_BUTTON": "Sign In",
+            "HIDE_PASSOWRD": "Hide Password",
             "FORGOT_PASSWORD": "Forgot Password?",
             "DONT_HAVE_ACCOUNT": {
-                "FIRST": "New here ?",
+                "FIRST": "New here?",
                 "SECOND": "Sign Up"
             },
             "PROVIDERS": {
@@ -28,10 +36,10 @@
         "SIGN_UP": {
             "TITLE": "Sign Up",
             "MESSAGE": "Sign Up to your account",
-            "WELCOME": "Welcome to Workify, let us start with creation of your account.",
+            "WELCOME": "Welcome to Workify, let's start with creating your account.",
             "SUBMIT_BUTTON": "Sign Up",
             "HAVE_ACCOUNT": {
-                "FIRST": "Already been here ?",
+                "FIRST": "Already have an account?",
                 "SECOND": "Sign In"
             },
             "TERMS": {
@@ -47,17 +55,17 @@
     },
     "MESSAGES": {
         "ERRORS": {
-            "DEFAULT": "Try one more time, or try again later.",
-            "USERNAME_EXISTS": "This username `already` exists, try with another one.",
-            "EMAIL_EXISTS": "This email `already` exists, try with another one.",
-            "DB_ERROR": "Application is facing some errors in the backend.",
-            "WRONG_DATA": "Invalid data, make sure to double check the data before submitting.",
-            "USER_DOES_NOT_EXISTS": "User does not exists, provide a valid email",
-            "WRONG_PASSWORD": "Wrong password, if you have forgot the password, you can reset it."
+            "DEFAULT": "Please try again later.",
+            "USERNAME_EXISTS": "Username already exists",
+            "EMAIL_EXISTS": "Email already exists",
+            "DB_ERROR": "Server error occurred",
+            "WRONG_DATA": "Invalid input data",
+            "USER_DOES_NOT_EXISTS": "User does not exist",
+            "WRONG_PASSWORD": "Incorrect password"
         },
         "SUCCESS": {
-            "SIGN_UP": "Account created with no issues.",
-            "SIGN_IN": "You have been logged in"
+            "SIGN_UP": "Account created successfully",
+            "SIGN_IN": "Login successful"
         },
         "PENDING": {
             "LOADING": "Loading"
