@@ -22,13 +22,12 @@ export const AuthCard = ({ signInCard }: Props) => {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-[440px] mx-4 "
+      className="w-full max-w-[440px] mx-4"
     >
       <Card className={cn(
         "relative overflow-hidden shadow-2xl",
-        "bg-background/80 backdrop-blur-lg",
-        "border border-gray-200 dark:border-gray-800",
-        "transition-all duration-300 hover:shadow-3xl dark:bg-gray-950 dark:border-gray-800"
+        "bg-background border border-border",
+        "transition-all duration-300 hover:shadow-3xl"
       )}>
         {/* Animated gradient background */}
         <motion.div 
@@ -38,7 +37,7 @@ export const AuthCard = ({ signInCard }: Props) => {
           aria-hidden="true"
         >
           <div className="absolute -inset-8 opacity-40">
-            <div className="w-full h-full animate-gradient-rotate bg-[conic-gradient(from_var(--shimmer-angle),hsl(240,20%,95%)_0%,hsl(240,30%,90%)_10%,hsl(240,20%,95%)_20%)] dark:bg-[conic-gradient(from_var(--shimmer-angle),hsl(240,5%,10%)_0%,hsl(240,5%,15%)_10%,hsl(240,5%,10%)_20%)]" />
+            <div className="w-full h-full animate-gradient-rotate bg-[conic-gradient(from_var(--shimmer-angle),hsl(240,20%,95%)_0%,hsl(240,30%,90%)_10%,hsl(240,20%,95%)_20%)] dark:bg-[conic-gradient(from_var(--shimmer-angle),hsl(240,5%,5%)_0%,hsl(240,5%,10%)_50%,hsl(240,5%,5%)_100%)]" />
           </div>
         </motion.div>
 
@@ -50,7 +49,7 @@ export const AuthCard = ({ signInCard }: Props) => {
             animate={{ scale: 1 }}
             className="flex flex-col items-center space-y-6"
           >
-            <h1 className="text-5xl font-black tracking-tighter bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
+            <h1 className="text-5xl font-bold tracking-tighter text-white dark:text-white">
               WORKIFY
             </h1>
             <div className="text-center space-y-2">
@@ -67,19 +66,17 @@ export const AuthCard = ({ signInCard }: Props) => {
           <CardContent className="p-0 space-y-8">
             {signInCard ? <SignInContent /> : <SignUpContent />}
 
-            {/* Social auth section
+            {/* Social auth section */}
             <div className="space-y-6">
-              <Separator className="bg-gradient-to-r from-transparent via-border to-transparent h-[1px]" />
-              
+              <Separator className="bg-border" />
               <div className="text-center text-sm text-muted-foreground">
                 {t("COMMON.OR_CONTINUE_WITH")}
               </div>
-
               <ProviderSignInButtons 
                 onLoading={setIsLoading}
                 disabled={isLoading}
               />
-            </div> */}
+            </div>
           </CardContent>
 
           {/* Switch auth mode */}

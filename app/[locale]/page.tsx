@@ -1,57 +1,102 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { LoadingState } from "@/components/ui/loadingState";
 import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
-interface Bubble {
-  id: number;
+const GRID_SIZE = 60; // Increased grid size
+
+const GridCell = ({
+  mouseX,
+  mouseY,
+  x,
+  y,
+  theme,
+}: {
+  mouseX: any;
+  mouseY: any;
   x: number;
   y: number;
-  size: number;
-}
+  theme: string | undefined;
+}) => {
+  const centerX = x + GRID_SIZE / 2;
+  const centerY = y + GRID_SIZE / 2;
+
+  const opacity = useTransform(() => {
+    const mx = mouseX.get();
+    const my = mouseY.get();
+    const distance = Math.sqrt(
+      Math.pow(mx - centerX, 2) + Math.pow(my - centerY, 2)
+    );
+    return Math.max(0.1, 1 - distance / 150); // Increased effect radius
+  });
+
+  const scale = useTransform(opacity, [0.1, 1], [0.9, 1.2]);
+
+  return (
+    <motion.div
+      className="absolute pointer-events-none"
+      style={{
+        left: x,
+        top: y,
+        width: GRID_SIZE,
+        height: GRID_SIZE,
+        border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
+        opacity: opacity,
+        scale: scale,
+        background: theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
+      }}
+    />
+  );
+};
 
 export default function Home({ params }: { params: { locale: string } }) {
   const t = useTranslations("Index");
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [bubbles, setBubbles] = useState<Bubble[]>([]);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const [animateUnderline, setAnimateUnderline] = useState(true);
+  const [gridCells, setGridCells] = useState<Array<{ x: number; y: number }>>([]);
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+  // Calculate grid cells
+  useEffect(() => {
+    const calculateGrid = () => {
+      const columns = Math.ceil(window.innerWidth / GRID_SIZE);
+      const rows = Math.ceil(window.innerHeight / GRID_SIZE);
+      const cells = [];
+      for (let i = 0; i < columns; i++) {
+        for (let j = 0; j < rows; j++) {
+          cells.push({ x: i * GRID_SIZE, y: j * GRID_SIZE });
+        }
       }
-    }
-  };
+      setGridCells(cells);
+    };
 
-  const buttonVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 120,
-        damping: 20
-      }
-    },
-    hover: {
-      scale: 1.05,
-      filter: "brightness(110%)",
-      transition: { type: "spring", stiffness: 300 }
-    },
-    tap: { scale: 0.95 }
-  };
+    calculateGrid();
+    window.addEventListener("resize", calculateGrid);
+    return () => window.removeEventListener("resize", calculateGrid);
+  }, []);
+
+  // Mouse tracking
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const handleContinue = () => {
     if (status === "authenticated") {
@@ -61,102 +106,83 @@ export default function Home({ params }: { params: { locale: string } }) {
     }
   };
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
-      
-      // Create new bubble with larger size
-      const newBubble = {
-        id: Date.now(),
-        x: e.clientX + (Math.random() - 0.5) * 80,
-        y: e.clientY + (Math.random() - 0.5) * 80,
-        size: Math.random() * 25 + 15 // Size between 15-40px
-      };
-
-      setBubbles(prev => [...prev, newBubble]);
-
-      // Remove bubbles after 4 seconds
-      setTimeout(() => {
-        setBubbles(prev => prev.filter(bubble => bubble.id !== newBubble.id));
-      }, 4000);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   return (
     <motion.div
-      className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-black dark:via-gray-950 dark:to-black overflow-hidden relative"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
+      ref={containerRef}
+      className="min-h-screen flex flex-col items-center justify-center gap-6 bg-background text-foreground relative overflow-hidden"
     >
-      {/* Website Name */}
-      <motion.h1 
-        className="fixed top-8 left-8 text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent z-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Workify
-      </motion.h1>
+      {/* Grid Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {gridCells.map((cell, index) => (
+          <GridCell
+            key={index}
+            mouseX={mouseX}
+            mouseY={mouseY}
+            x={cell.x}
+            y={cell.y}
+            theme={theme}
+          />
+        ))}
+      </div>
 
-      {/* Cursor Bubbles */}
-      {bubbles.map((bubble) => (
-        <motion.div
-          key={bubble.id}
-          className="absolute rounded-full bg-black/10 dark:bg-white/10 backdrop-blur-lg border border-black/5 dark:border-white/5"
-          style={{
-            width: bubble.size,
-            height: bubble.size,
-            left: bubble.x - bubble.size/2,
-            top: bubble.y - bubble.size/2
-          }}
-          initial={{ scale: 0, opacity: 1 }}
-          animate={{ 
-            scale: [0, 1, 0.8],
-            opacity: [1, 0.8, 0]
-          }}
-          transition={{ 
-            duration: 4,
-            ease: "easeOut",
-            times: [0, 0.8, 1]
-          }}
-        />
-      ))}
-
-      {/* Continue Button */}
+      {/* Cursor Glow Effect */}
       <motion.div
-        variants={buttonVariants}
-        whileHover="hover"
-        whileTap="tap"
-        className="relative group z-10"
-      >
+        className="fixed pointer-events-none rounded-full"
+        style={{
+          left: mouseX,
+          top: mouseY,
+          x: "-50%",
+          y: "-50%",
+          width: 300,
+          height: 300,
+          background: `radial-gradient(circle, ${theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'} 0%, transparent 70%)`,
+        }}
+      />
+
+      {/* Top Right Controls */}
+      <div className="absolute top-4 right-4 flex gap-4 z-50">
+        <ThemeSwitcher />
         <Button
           onClick={handleContinue}
           disabled={status === "loading"}
-          className="px-8 py-6 rounded-2xl text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-gray-900 dark:to-gray-800 text-white shadow-xl relative overflow-hidden border-0"
+          className="px-6 py-4 rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90"
         >
           {status === "loading" ? (
-            <LoadingState className="h-6 w-6 text-white" />
+            <LoadingState className="h-5 w-5 text-white" />
           ) : (
             t('CONTINUE')
           )}
-          <motion.div
-            initial={{ scale: 0 }}
-            whileHover={{ scale: 2 }}
-            className="absolute inset-0 bg-white/5 rounded-2xl mix-blend-screen"
-            transition={{ type: "spring", stiffness: 300 }}
-          />
         </Button>
-      </motion.div>
+      </div>
 
-      <ThemeSwitcher  />
+      {/* Centered Application Name */}
+      <div className="relative z-10">
+        <motion.h1 
+          className="text-8xl font-bold text-foreground text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          Workify
+          <motion.div
+            className="h-1 bg-primary mt-2"
+            initial={{ scaleX: 0 }}
+            animate={{
+              scaleX: 1,
+              transition: {
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut"
+              }
+            }}
+          />
+        </motion.h1>
+      </div>
 
-      {/* Welcome message */}
+      {/* Welcome Message */}
       <motion.div
-        className="absolute bottom-8 text-muted-foreground dark:text-gray-400 text-sm z-10"
+        className="absolute bottom-8 text-muted-foreground text-sm z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}

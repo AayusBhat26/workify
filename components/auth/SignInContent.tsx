@@ -111,7 +111,7 @@ export const SignInContent = () => {
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                        aria-label={showPassword ? t("HIDE_PASSWORD") : t("SHOW_PASSWORD")}
+                        aria-label={showPassword ? t("SIGN_IN.HIDE_PASSOWRD") : t("SHOW_PASSWORD")}
                       >
                         {showPassword ? (
                           <EyeOff className="h-5 w-5" />
