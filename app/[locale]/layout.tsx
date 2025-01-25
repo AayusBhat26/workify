@@ -41,8 +41,7 @@ export default async function RootLayout({
         <NextIntlClientProvider
           locale={locale}
           messages={messages}
-          timeZone="Asia/Kolkata" // Set appropriate timezone
-        >
+          timeZone="Kolkata"        >
           <AuthProvider>
             <ThemeProvider
               attribute="class"

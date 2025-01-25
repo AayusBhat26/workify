@@ -98,13 +98,13 @@ export default function Home({ params }: { params: { locale: string } }) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const handleContinue = () => {
-    if (status === "authenticated") {
-      router.push(`/${params.locale}/dashboard`);
-    } else {
-      router.push(`/${params.locale}/sign-in`);
-    }
-  };
+  // const handleContinue = () => {
+  //   if (status === "authenticated") {
+  //     router.push(`/${params.locale}/dashboard`);
+  //   } else {
+  //     router.push(`/${params.locale}/sign-in`);
+  //   }
+  // };
 
   return (
     <motion.div
@@ -135,7 +135,7 @@ export default function Home({ params }: { params: { locale: string } }) {
           y: "-50%",
           width: 300,
           height: 300,
-          background: `radial-gradient(circle, ${theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${theme === 'dark' ? 'rgba(207, 254, 0, 0.522)' : 'rgb(207, 254, 0)'} 0%, transparent 10%)`,
         }}
       />
 
@@ -143,7 +143,7 @@ export default function Home({ params }: { params: { locale: string } }) {
       <div className="absolute top-4 right-4 flex gap-4 z-50">
         <ThemeSwitcher />
         <Button
-          onClick={handleContinue}
+          // onClick={handleContinue}
           disabled={status === "loading"}
           className="px-6 py-4 rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90"
         >
@@ -170,10 +170,10 @@ export default function Home({ params }: { params: { locale: string } }) {
             animate={{
               scaleX: 1,
               transition: {
-                duration: 2,
+                duration: 4,
                 repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut"
+                repeatType: "reverse",
+                ease: "linear"
               }
             }}
           />
