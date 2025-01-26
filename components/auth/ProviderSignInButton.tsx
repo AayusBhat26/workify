@@ -27,7 +27,7 @@ export const ProviderSignInButton = ({
     setLoggedInfo(true);
     try {
       await signIn(providerName, {
-        callbackUrl: `/${locale}/dashboard`
+        callbackUrl: `/${locale}/onboarding`
       });
     } catch (error) {
       console.error("Provider sign-in error:", error);

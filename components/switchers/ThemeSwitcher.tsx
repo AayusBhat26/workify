@@ -9,10 +9,19 @@ import {
 import { Button } from "../ui/button";
 import { Moon, Sun, Monitor } from "lucide-react";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils"; // Ensure you have a cn utility or use classnames
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export const ThemeSwitcher = () => {
     const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
 
     return (
         <DropdownMenu>
@@ -21,15 +30,29 @@ export const ThemeSwitcher = () => {
                     variant="ghost" 
                     size="icon"
                     className="relative hover:bg-accent/50 transition-colors"
+                    suppressHydrationWarning
                 >
-                    <Sun className={cn(
-                        "h-[1.2rem] w-[1.2rem] absolute transition-all",
-                        theme === "dark" ? "rotate-90 scale-0" : "rotate-0 scale-100"
-                    )} />
-                    <Moon className={cn(
-                        "h-[1.2rem] w-[1.2rem] absolute transition-all",
-                        theme === "dark" ? "rotate-0 scale-100" : "-rotate-90 scale-0"
-                    )} />
+                    <motion.div
+                        initial={{ rotate: 0, scale: 1 }}
+                        animate={{ 
+                            rotate: theme === "dark" ? 90 : 0,
+                            scale: theme === "dark" ? 0 : 1
+                        }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
+                        <Sun className="h-[1.2rem] w-[1.2rem]" />
+                    </motion.div>
+                    <motion.div
+                        initial={{ rotate: -90, scale: 0 }}
+                        animate={{ 
+                            rotate: theme === "dark" ? 0 : -90,
+                            scale: theme === "dark" ? 1 : 0
+                        }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="absolute"
+                    >
+                        <Moon className="h-[1.2rem] w-[1.2rem]" />
+                    </motion.div>
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
@@ -37,44 +60,63 @@ export const ThemeSwitcher = () => {
                 align="end"
                 className={cn(
                     "min-w-[120px] rounded-md border bg-background p-1 shadow-lg",
-                    "data-[state=open]:animate-in data-[state=closed]:animate-out",
-                    "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-                    "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
                 )}
+                asChild
             >
-                <DropdownMenuItem 
-                    onClick={() => setTheme("light")}
-                    className={cn(
-                        "flex items-center gap-2 p-2 text-sm rounded-sm cursor-pointer",
-                        "hover:bg-accent focus:bg-accent outline-none transition-colors",
-                        theme === "light" && "bg-accent/50 font-medium"
-                    )}
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                 >
-                    <Sun className="h-4 w-4" />
-                    Light
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                    onClick={() => setTheme("dark")}
-                    className={cn(
-                        "flex items-center gap-2 p-2 text-sm rounded-sm cursor-pointer",
-                        "hover:bg-accent focus:bg-accent outline-none transition-colors",
-                        theme === "dark" && "bg-accent/50 font-medium"
-                    )}
-                >
-                    <Moon className="h-4 w-4" />
-                    Dark
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                    onClick={() => setTheme("system")}
-                    className={cn(
-                        "flex items-center gap-2 p-2 text-sm rounded-sm cursor-pointer",
-                        "hover:bg-accent focus:bg-accent outline-none transition-colors",
-                        theme === "system" && "bg-accent/50 font-medium"
-                    )}
-                >
-                    <Monitor className="h-4 w-4" />
-                    System
-                </DropdownMenuItem>
+                    <DropdownMenuItem 
+                        onClick={() => setTheme("light")}
+                        className={cn(
+                            "flex items-center gap-2 p-2 text-sm rounded-sm cursor-pointer",
+                            "hover:bg-accent focus:bg-accent outline-none transition-colors",
+                            theme === "light" && "bg-accent/50 font-medium"
+                        )}
+                    >
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="flex items-center gap-2"
+                        >
+                            <Sun className="h-4 w-4" />
+                            Light
+                        </motion.div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                        onClick={() => setTheme("dark")}
+                        className={cn(
+                            "flex items-center gap-2 p-2 text-sm rounded-sm cursor-pointer",
+                            "hover:bg-accent focus:bg-accent outline-none transition-colors",
+                            theme === "dark" && "bg-accent/50 font-medium"
+                        )}
+                    >
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="flex items-center gap-2"
+                        >
+                            <Moon className="h-4 w-4" />
+                            Dark
+                        </motion.div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                        onClick={() => setTheme("system")}
+                        className={cn(
+                            "flex items-center gap-2 p-2 text-sm rounded-sm cursor-pointer",
+                            "hover:bg-accent focus:bg-accent outline-none transition-colors",
+                            theme === "system" && "bg-accent/50 font-medium"
+                        )}
+                    >
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="flex items-center gap-2"
+                        >
+                            <Monitor className="h-4 w-4" />
+                            System
+                        </motion.div>
+                    </DropdownMenuItem>
+                </motion.div>
             </DropdownMenuContent>
         </DropdownMenu>
     );

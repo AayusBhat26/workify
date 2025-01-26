@@ -53,7 +53,7 @@ export const SignInContent = () => {
         toast({
           title: m("SUCCESS.SIGN_IN"),
         });
-        router.push("/dashboard");
+        router.push("/onboarding");
         router.refresh();
       }
     } catch (err) {

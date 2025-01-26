@@ -13,13 +13,20 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/navigation";
 import { useTheme } from "next-themes";
 import { Globe } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 
 export const LanguageSwitcher = () => {
     const { theme } = useTheme();
     const locale = useLocale();
     const [isLoading, setIsLoading] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const path = usePathname();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     function changeLanguage(nextLocale: "hi" | "en") {
         setIsLoading(true);
@@ -29,6 +36,8 @@ export const LanguageSwitcher = () => {
         });
     }
 
+    if (!mounted) return null;
+
     return(
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -37,57 +46,67 @@ export const LanguageSwitcher = () => {
                     variant={"ghost"} 
                     size={"icon"}
                     className="hover:bg-accent/50 transition-all duration-200"
+                    suppressHydrationWarning
                 >
                     {isLoading ? (
                         <LoadingState className="h-4 w-4" />
                     ) : (
-                        <>
-                            <Globe className={`h-4 w-4 ${theme === 'dark' ? 'text-foreground' : 'text-primary'} transition-transform hover:scale-110`} />
+                        <motion.div
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <Globe className={`h-4 w-4 transition-transform`} />
                             <span className="sr-only">Change Language</span>
-                        </>
+                        </motion.div>
                     )}
                 </Button>
             </DropdownMenuTrigger> 
             
             <DropdownMenuContent 
                 align="end"
-                className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg`}
+                className="rounded-lg shadow-lg overflow-hidden"
+                asChild
             >
-                <DropdownMenuItem 
-                    onClick={() => changeLanguage("en")}
-                    className={`cursor-pointer p-2 transition-all duration-200 ${
-                        theme === 'dark' 
-                            ? 'hover:bg-gray-700/80 hover:translate-x-1' 
-                            : 'hover:bg-accent/20 hover:translate-x-1'
-                    }`}
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className={theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}
                 >
-                    <span className={`${locale === 'en' ? 'font-bold' : 'font-medium'} ${
-                        theme === 'dark' 
-                            ? 'text-white hover:text-primary' 
-                            : 'text-gray-800 hover:text-primary'
-                    } transition-colors duration-200 flex items-center gap-2`}>
-                        <span className="text-sm">English</span>
-                        <span className="text-xs opacity-70">EN</span>
-                    </span>
-                </DropdownMenuItem>
-                
-                <DropdownMenuItem 
-                    onClick={() => changeLanguage("hi")}
-                    className={`cursor-pointer p-2 transition-all duration-200 ${
-                        theme === 'dark' 
-                            ? 'hover:bg-gray-700/80 hover:translate-x-1' 
-                            : 'hover:bg-accent/20 hover:translate-x-1'
-                    }`}
-                >
-                    <span className={`${locale === 'hi' ? 'font-bold' : 'font-medium'} ${
-                        theme === 'dark' 
-                            ? 'text-white hover:text-primary' 
-                            : 'text-gray-800 hover:text-primary'
-                    } transition-colors duration-200 flex items-center gap-2`}>
-                        <span className="text-sm">हिन्दी</span>
-                        <span className="text-xs opacity-70">HI</span>
-                    </span>
-                </DropdownMenuItem>
+                    <DropdownMenuItem 
+                        onClick={() => changeLanguage("en")}
+                        className="cursor-pointer p-2 outline-none"
+                    >
+                        <motion.div
+                            whileHover={{ x: 5 }}
+                            className={`flex items-center gap-2 ${
+                                theme === 'dark' ? 'text-white' : 'text-gray-800'
+                            }`}
+                        >
+                            <span className={`${locale === 'en' ? 'font-bold' : 'font-medium'} transition-colors duration-200 flex items-center gap-2`}>
+                                <span className="text-sm">English</span>
+                                <span className="text-xs opacity-70">EN</span>
+                            </span>
+                        </motion.div>
+                    </DropdownMenuItem>
+                    
+                    <DropdownMenuItem 
+                        onClick={() => changeLanguage("hi")}
+                        className="cursor-pointer p-2 outline-none"
+                    >
+                        <motion.div
+                            whileHover={{ x: 5 }}
+                            className={`flex items-center gap-2 ${
+                                theme === 'dark' ? 'text-white' : 'text-gray-800'
+                            }`}
+                        >
+                            <span className={`${locale === 'hi' ? 'font-bold' : 'font-medium'} transition-colors duration-200 flex items-center gap-2`}>
+                                <span className="text-sm">हिन्दी</span>
+                                <span className="text-xs opacity-70">HI</span>
+                            </span>
+                        </motion.div>
+                    </DropdownMenuItem>
+                </motion.div>
             </DropdownMenuContent>
         </DropdownMenu>
     )
