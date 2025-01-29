@@ -8,6 +8,8 @@ import { LoadingState } from "@/components/ui/loadingState";
 import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
 import { useRef, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { toast, useToast } from "@/hooks/use-toast";
+
 
 const GRID_SIZE = 60;
 const COLORS = {
@@ -46,6 +48,7 @@ const GridCell = ({
       ? `rgba(255,255,255,${0.03 * (1 - distance.get() / 300)})`
       : `rgba(0,0,0,${0.03 * (1 - distance.get() / 300)})`;
   });
+  const { toast } = useToast();
 
   return (
     <motion.div
@@ -125,7 +128,6 @@ export default function Home({ params }: { params: { locale: string } }) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     const updateContainerPosition = () => {
       const vx = mouseXVelocity.get();
@@ -169,15 +171,19 @@ export default function Home({ params }: { params: { locale: string } }) {
       router.push(`/${params.locale}/sign-in`);
     }
   };
-=======
-  // const handleContinue = () => {
-  //   if (status === "authenticated") {
-  //     router.push(`/${params.locale}/dashboard`);
-  //   } else {
-  //     router.push(`/${params.locale}/sign-in`);
-  //   }
-  // };
->>>>>>> 8f9ac6507a1527e79cb179f5db84a06f93efef7a
+  const handleSignOut = () => {
+    if (status === 'authenticated') {
+      signOut({
+        callbackUrl: `/${params.locale}/sign-in`,
+        redirect: true,
+      });
+    } else {
+      toast({
+        title: t("SUCCESS.SIGN_UP"),
+        variant: "default",
+      });
+    }
+  };
 
   if (!mounted) return null;
 
@@ -211,7 +217,6 @@ export default function Home({ params }: { params: { locale: string } }) {
           y: "-50%",
           width: 300,
           height: 300,
-<<<<<<< HEAD
           background: `radial-gradient(circle at center, ${
             theme === 'dark' 
               ? 'rgba(255, 255, 255, 0.3)' 
@@ -228,25 +233,15 @@ export default function Home({ params }: { params: { locale: string } }) {
           duration: 3,
           repeat: Infinity,
           ease: "easeInOut",
-=======
-          background: `radial-gradient(circle, ${theme === 'dark' ? 'rgba(207, 254, 0, 0.522)' : 'rgb(207, 254, 0)'} 0%, transparent 10%)`,
->>>>>>> 8f9ac6507a1527e79cb179f5db84a06f93efef7a
         }}
       />
 
       <div className="absolute top-4 right-4 flex gap-4 z-50">
         <ThemeSwitcher />
-<<<<<<< HEAD
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="relative overflow-hidden"
-=======
-        <Button
-          // onClick={handleContinue}
-          disabled={status === "loading"}
-          className="px-6 py-4 rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90"
->>>>>>> 8f9ac6507a1527e79cb179f5db84a06f93efef7a
         >
           <Button
             onClick={handleContinue}
@@ -300,17 +295,11 @@ export default function Home({ params }: { params: { locale: string } }) {
             animate={{
               scaleX: 1,
               transition: {
-                duration: 4,
+                duration: 2,
                 repeat: Infinity,
-<<<<<<< HEAD
                 repeatType: "mirror",
                 ease: "easeInOut",
               },
-=======
-                repeatType: "reverse",
-                ease: "linear"
-              }
->>>>>>> 8f9ac6507a1527e79cb179f5db84a06f93efef7a
             }}
           />
         </motion.h1>
@@ -354,7 +343,7 @@ export default function Home({ params }: { params: { locale: string } }) {
                 }
                 className="px-6 py-4 rounded-xl text-base font-semibold bg-destructive text-destructive-foreground shadow-lg hover:bg-destructive/90 relative"
               >
-                {t("SIGN_OUT")}
+                sign out
                 <motion.div
                   className="absolute inset-0 rounded-xl border-2 border-destructive-foreground"
                   animate={{
