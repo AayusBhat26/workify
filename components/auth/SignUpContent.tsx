@@ -164,8 +164,8 @@ export const SignUpContent = () => {
                       <Input
                         placeholder={t("EMAIL")}
                         {...field}
-                        className="h-12 dark:bg-gray-900 dark:border-gray-800 dark:text-white dark:placeholder:text-gray-400"
-                        
+                        className="h-12 dark:bg-gray-900 dark:border-gray-800 dark:text-white 
+                        dark:placeholder:text-gray-400"
                       />
                     </motion.div>
                   </FormControl>
@@ -188,7 +188,7 @@ export const SignUpContent = () => {
                       <Input
                         placeholder={t("USERNAME")}
                         {...field}
-                        className="h-12 dark:bg-gray-900 dark:border-gray-800 dark:text-white dark:placeholder:text-gray-400"
+                        className="h-12 dark:bg-grayb-900 dark:border-gray-800 dark:text-white dark:placeholder:text-gray-400"
                         
                       />
                     </motion.div>
