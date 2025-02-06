@@ -6,6 +6,7 @@ import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { QueryProvider } from "@/providers/QueryProvider";
 
 const locales = ["en", "hi"] as const;
 
@@ -29,9 +30,9 @@ export default async function RootLayout({
   const messages = await getMessages(locale);
 
   return (
-    <html 
-      lang={locale} 
-      translate="no" 
+    <html
+      lang={locale}
+      translate="no"
       suppressHydrationWarning
     >
       <head>
@@ -43,17 +44,19 @@ export default async function RootLayout({
           messages={messages}
           timeZone="Kolkata"        >
           <AuthProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Toaster />
-              <div suppressHydrationWarning className="dark:bg-gray-950 dark:border-gray-800">
-                {children}
-              </div>
-            </ThemeProvider>
+            <QueryProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Toaster />
+                <div suppressHydrationWarning className="dark:bg-gray-950 dark:border-gray-800">
+                  {children}
+                </div>
+              </ThemeProvider>
+            </QueryProvider>
           </AuthProvider>
         </NextIntlClientProvider>
       </body>

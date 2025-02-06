@@ -6,10 +6,12 @@ import { moreInfoFirst } from "@/schema/moreInfoFirst";
 import { ActionType } from "@/types/OnboardingContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, User } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { AddUserImage } from "../AddUserImage";
+import { AddUserImage } from "../common/AddUserImage";
+import { useSession } from "next-auth/react";
 export const FirstStep = () => {
+    const session = useSession();
     const { currentStep, name, surname, dispatch, profileImage } = useOnboardingForm();
     const form = useForm<moreInfoFirst>({
         resolver: zodResolver(moreInfoFirst),
@@ -18,11 +20,14 @@ export const FirstStep = () => {
             surname: surname ? surname : ""
         },
     });
-
+    useEffect(() => {
+        dispatch({ type: ActionType.PROFILEIMAGE, payload: session.data?.user.image as string });
+    }, [session.data?.user.image, dispatch])
     const onSubmit = (data: moreInfoFirst) => {
         dispatch({ type: ActionType.NAME, payload: data.name! });
         dispatch({ type: ActionType.SURNAME, payload: data.surname! });
         dispatch({ type: ActionType.CHANGE_SITE, payload: currentStep + 1 });
+
     }
     return <div className="max-w-md w-full space-y-8">
         {/* <div className="flex flex-col justify-center items-center gap-2">

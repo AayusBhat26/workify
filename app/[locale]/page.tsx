@@ -10,49 +10,61 @@ import { useRef, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { toast, useToast } from "@/hooks/use-toast";
 
-
 const GRID_SIZE = 60;
-const COLORS = {
-  light: "#f8fafc",
-  dark: "#020617",
-};
+const ACTIVE_RADIUS = 150;
+// Define a palette of colors to assign to each grid cell.
+const PALETTE = ["#FF5733", "#33FF57", "#3357FF", "#F3FF33", "#FF33A1", "#33FFF2"];
 
-const GridCell = ({
-  mouseX,
-  mouseY,
-  x,
-  y,
-  theme,
-}: {
+// Helper function to convert a hex color (e.g. "#FF5733") to an rgba string with the given alpha.
+function hexToRgbA(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+type GridCellProps = {
   mouseX: any;
   mouseY: any;
   x: number;
   y: number;
   theme: string | undefined;
-}) => {
+  cellColor: string;
+};
+
+const GridCell = ({ mouseX, mouseY, x, y, theme, cellColor }: GridCellProps) => {
   const centerX = x + GRID_SIZE / 2;
   const centerY = y + GRID_SIZE / 2;
 
+  // Compute the distance from the cell center to the cursor.
   const distance = useTransform(() => {
     const mx = mouseX.get();
     const my = mouseY.get();
-    return Math.sqrt(Math.pow(mx - centerX, 2) + Math.pow(my - centerY, 2));
+    return Math.sqrt((mx - centerX) ** 2 + (my - centerY) ** 2);
   });
 
+  // Use the computed distance to dynamically adjust opacity, scale, and rotation.
   const opacity = useTransform(distance, [0, 150], [1, 0.1]);
   const scale = useTransform(distance, [0, 150], [1.2, 0.9]);
   const rotate = useTransform(distance, [0, 300], [0, 45]);
 
-  const backgroundColor = useTransform(() => {
-    return theme === "dark" 
-      ? `rgba(255,255,255,${0.03 * (1 - distance.get() / 300)})`
-      : `rgba(0,0,0,${0.03 * (1 - distance.get() / 300)})`;
+  // Dynamically compute the background color:
+  // - If the cell is within ACTIVE_RADIUS, use its base color tinted with an alpha that fades as distance increases.
+  // - Otherwise, use a subtle default color.
+  const backgroundColor = useTransform(distance, (d: number) => {
+    if (d < ACTIVE_RADIUS) {
+      const alpha = 1 - d / ACTIVE_RADIUS; // closer cells are more opaque
+      return hexToRgbA(cellColor, alpha);
+    } else {
+      return theme === "dark"
+        ? "rgba(255,255,255,0.03)"
+        : "rgba(0,0,0,0.03)";
+    }
   });
-  const { toast } = useToast();
 
   return (
     <motion.div
-      className="absolute pointer-events-none"
+      className="absolute"
       style={{
         left: x,
         top: y,
@@ -63,7 +75,10 @@ const GridCell = ({
         scale,
         rotate,
         background: backgroundColor,
+        pointerEvents: "auto",
       }}
+      // An optional hover effect to enlarge the cell further.
+      whileHover={{ scale: 1.3 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
     />
   );
@@ -84,7 +99,8 @@ export default function Home({ params }: { params: { locale: string } }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [gridCells, setGridCells] = useState<Array<{ x: number; y: number }>>([]);
+  // Each grid cell now also includes a color property.
+  const [gridCells, setGridCells] = useState<Array<{ x: number; y: number; color: string }>>([]);
 
   useEffect(() => {
     setMounted(true);
@@ -97,7 +113,9 @@ export default function Home({ params }: { params: { locale: string } }) {
       const cells = [];
       for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
-          cells.push({ x: i * GRID_SIZE, y: j * GRID_SIZE });
+          // Cycle through the palette based on the cell's position.
+          const color = PALETTE[(i + j) % PALETTE.length];
+          cells.push({ x: i * GRID_SIZE, y: j * GRID_SIZE, color });
         }
       }
       setGridCells(cells);
@@ -114,7 +132,7 @@ export default function Home({ params }: { params: { locale: string } }) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       mouseXVelocity.set(x - lastMouseX.get());
       mouseYVelocity.set(y - lastMouseY.get());
       lastMouseX.set(x);
@@ -143,7 +161,7 @@ export default function Home({ params }: { params: { locale: string } }) {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  const cursorScale = useTransform(() => 
+  const cursorScale = useTransform(() =>
     Math.min(1.5 + Math.abs(mouseXVelocity.get()) / 100 + Math.abs(mouseYVelocity.get()) / 100, 2.5)
   );
 
@@ -172,7 +190,7 @@ export default function Home({ params }: { params: { locale: string } }) {
     }
   };
   const handleSignOut = () => {
-    if (status === 'authenticated') {
+    if (status === "authenticated") {
       signOut({
         callbackUrl: `/${params.locale}/sign-in`,
         redirect: true,
@@ -195,7 +213,8 @@ export default function Home({ params }: { params: { locale: string } }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Render grid cells with dynamic coloring based on cursor distance */}
+      <div className="absolute inset-0">
         {gridCells.map((cell, index) => (
           <GridCell
             key={index}
@@ -204,6 +223,7 @@ export default function Home({ params }: { params: { locale: string } }) {
             x={cell.x}
             y={cell.y}
             theme={theme}
+            cellColor={cell.color}
           />
         ))}
       </div>
@@ -217,12 +237,11 @@ export default function Home({ params }: { params: { locale: string } }) {
           y: "-50%",
           width: 300,
           height: 300,
-          background: `radial-gradient(circle at center, ${
-            theme === 'dark' 
-              ? 'rgba(255, 255, 255, 0.3)' 
-              : 'rgba(0, 0, 0, 0.3)'
-          } 0%, transparent 70%)`,
-          filter: 'blur(20px)',
+          background: `radial-gradient(circle at center, ${theme === "dark"
+            ? "rgba(255, 255, 255, 0.3)"
+            : "rgba(0, 0, 0, 0.3)"
+            } 0%, transparent 70%)`,
+          filter: "blur(20px)",
           scale: cursorScale,
         }}
         animate={{
@@ -278,7 +297,7 @@ export default function Home({ params }: { params: { locale: string } }) {
           initial="hidden"
           animate="visible"
         >
-          {"Workify".split('').map((letter, index) => (
+          {"Workify".split("").map((letter, index) => (
             <motion.span
               key={index}
               variants={letterVariants}
@@ -305,33 +324,30 @@ export default function Home({ params }: { params: { locale: string } }) {
         </motion.h1>
       </div>
 
-      <motion.div 
+      <motion.div
         className="absolute bottom-8 text-muted-foreground text-sm z-10 flex flex-col items-center gap-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
       >
-        <motion.div
-          className="text-center"
-          whileHover={{ scale: 1.05 }}
-        >
+        <motion.div className="text-center" whileHover={{ scale: 1.05 }}>
           {t("WELCOME_MESSAGE")}
         </motion.div>
-        
+
         <AnimatePresence>
           {status === "authenticated" && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 rotate: [0, 2, -2, 0],
-                transition: { duration: 0.5 }
+                transition: { duration: 0.5 },
               }}
-              whileTap={{ 
+              whileTap={{
                 scale: 0.95,
-                rotate: 0 
+                rotate: 0,
               }}
             >
               <Button
@@ -362,12 +378,12 @@ export default function Home({ params }: { params: { locale: string } }) {
         </AnimatePresence>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="absolute inset-0 pointer-events-none"
-        style={{ 
-          x: dotsContainerX, 
+        style={{
+          x: dotsContainerX,
           y: dotsContainerY,
-          transition: 'linear 0.1s' 
+          transition: "linear 0.1s",
         }}
       >
         {Array.from({ length: 50 }).map((_, i) => (
