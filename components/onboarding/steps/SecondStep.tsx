@@ -1,3 +1,4 @@
+"use client";
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -15,22 +16,21 @@ import { ActionType } from '@/types/OnboardingContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { ArrowRight } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
 const useCases = [
     {
         case: 'WORK',
-        title: 'For work',
+        title: "SECOND_STEP.WORK",
     },
     {
         case: 'STUDY',
-        title: 'For Study',
+        title: "SECOND_STEP.STUDY",
     },
     {
         case: 'PERSONAL',
-        title: 'For Personal Use',
+        title: "SECOND_STEP.PERSONAL",
     },
 ];
 export const SecondStep = () => {
@@ -90,7 +90,7 @@ export const SecondStep = () => {
                                                         <RadioGroupItem value={useCase.case} />
                                                     </FormControl>
                                                     <FormLabel className="font-normal lg:text-lg h-full left-9 flex items-center absolute w-full cursor-pointer">
-                                                        {useCase.title}
+                                                        {t(useCase.title)}
                                                     </FormLabel>
                                                 </FormItem>
                                             ))}
@@ -100,7 +100,7 @@ export const SecondStep = () => {
                             )}
                         />
                         <Button
-                            className="mt-10 w-full max-w-md dark:text-white font-semibold"
+                            className="mt-10 w-full max-w-md dark:text-black font-semibold"
                             //   disabled={!form.formState.isValid}
                             type="submit"
                         >
