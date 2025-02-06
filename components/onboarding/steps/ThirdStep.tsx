@@ -16,7 +16,7 @@ import { useOnboardingForm } from "@/context/OnboardingForm";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from "next-intl";
-import { ActionType } from "@/types/onBoardingContext";
+import { ActionType } from "@/types/OnboardingContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoadingState } from "@/components/ui/loadingState";

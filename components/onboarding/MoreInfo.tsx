@@ -5,6 +5,7 @@ import { SecondStep } from "./steps/SecondStep";
 import { ThirdStep } from "./steps/ThirdStep";
 import { FormStepInfo } from "./FormStepInfo";
 import { WorkifyHeader } from "../ui/workifyHeader";
+import { Final } from "./steps/Final";
 
 interface Props {
     profileImage?: string | null;
@@ -21,6 +22,7 @@ export const MoreInfo = ({ profileImage }: Props) => {
                 {currentStep === 1 && <FirstStep profileImage={profileImage} />}
                 {currentStep === 2 && <SecondStep />}
                 {currentStep === 3 && <ThirdStep />}
+                {currentStep === 4 && <Final />}
             </div>
             <FormStepInfo />
         </section>
