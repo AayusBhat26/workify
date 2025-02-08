@@ -109,7 +109,7 @@
             "IMAGE": "Only .jpeg, .jpg, .png, .webp, .gif types are supported"
         },
         "FINISH": {
-            "TITLE": "That's it!",
+            "TITLE": "You are about to experience something new!",
             "DESC_FIRST": "You can already start using",
             "DESC_SECOND": "by clicking the button below"
         },
