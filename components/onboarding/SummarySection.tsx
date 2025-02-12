@@ -9,8 +9,8 @@
 //     CardTitle,
 // } from "@/components/ui/card";
 import { useOnboardingForm } from "@/context/OnboardingForm";
-import { UserAvatar } from "../ui/user-avatar";
 import { useTranslations } from "next-intl";
+import { UserAvatar } from "../ui/user-avatar";
 
 export const SummarySection = () => {
     const { name, surname, profileImage, useCase, currentStep } =

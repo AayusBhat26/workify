@@ -5,12 +5,12 @@ import { useOnboardingForm } from "@/context/OnboardingForm";
 import { moreInfoFirst } from "@/schema/moreInfoFirst";
 import { ActionType } from "@/types/OnboardingContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, User } from "lucide-react";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { AddUserImage } from "../common/AddUserImage";
+import { ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { AddUserImage } from "../common/AddUserImage";
 
 interface Props {
     profileImage?: string | null;

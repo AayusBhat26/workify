@@ -1,11 +1,11 @@
 "use client";
-import { useOnboardingForm } from "@/context/OnboardingForm"
+import { useOnboardingForm } from "@/context/OnboardingForm";
+import { WorkifyHeader } from "../ui/workifyHeader";
+import { FormStepInfo } from "./FormStepInfo";
+import { Final } from "./steps/Final";
 import { FirstStep } from "./steps/FirstStep";
 import { SecondStep } from "./steps/SecondStep";
 import { ThirdStep } from "./steps/ThirdStep";
-import { FormStepInfo } from "./FormStepInfo";
-import { WorkifyHeader } from "../ui/workifyHeader";
-import { Final } from "./steps/Final";
 
 interface Props {
     profileImage?: string | null;

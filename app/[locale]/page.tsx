@@ -1,14 +1,14 @@
 "use client";
-import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
+import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
+import { LoadingState } from "@/components/ui/loadingState";
+import { toast } from "@/hooks/use-toast";
+import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { LoadingState } from "@/components/ui/loadingState";
-import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
-import { useRef, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { toast, useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const GRID_SIZE = 60;
 const ACTIVE_RADIUS = 150;

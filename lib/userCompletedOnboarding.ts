@@ -8,7 +8,7 @@ export const userCompletedOnboarding = async (currentPath: string) => {
 
   if (!session) redirect('/');
 
-  if (session.user.moveToDashboard && currentPath === '/onboarding') redirect('/user-page');
+  // if (session.user.moveToDashboard && currentPath === '/onboarding') redirect('/user-page');
 
   if (!session.user.moveToDashboard && currentPath !== '/onboarding')
     redirect('/onboarding?error=not-completed-onboarding');
