@@ -6,7 +6,7 @@ import { Settings } from './Settings';
 
 export const OptionsSidebar = () => {
   const pathname = usePathname();
-  if (pathname === '/dashboard') return null;
+  if (pathname === '/en/dashboard' || pathname === '/hi/dashboard') return null;
 
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">

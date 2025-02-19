@@ -5,7 +5,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="flex h-0 min-h-screen w-full">
       <Sidebar />
-      <div className="relative p-4 md:p-6 flex flex-grow flex-col overflow-y-auto ">
+      <div className="relative p-4 md:p-6 flex flex-grow flex-col overflow-y-auto lg:px-10 ">
         <HeaderDashboard />
         {children}
       </div>
