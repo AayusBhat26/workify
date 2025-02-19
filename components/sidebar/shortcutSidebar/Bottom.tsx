@@ -23,7 +23,13 @@ export const Bottom = () => {
   return (
     <div>
       <div className="cursor-pointer flex flex-col gap-4">
-        <LanguageSwitcher />
+        <LanguageSwitcher
+          variant={'ghost'}
+          textSize="text-lg"
+          alignHover="start"
+          alignDropDown="start"
+          size={'icon'}
+        />
       </div>
       {/* <ThemeSwitcher /> */}
       <HoverCard openDelay={250} closeDelay={250}>
