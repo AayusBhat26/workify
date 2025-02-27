@@ -24,8 +24,8 @@ import { UserAvatar } from '../ui/user-avatar';
 
 interface Props {
   profileImage?: string | null;
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
 }
 
 export const HeaderUser = ({ profileImage, username, email }: Props) => {

@@ -183,11 +183,7 @@ export default function Home({ params }: { params: { locale: string } }) {
   };
 
   const handleContinue = () => {
-    if (status === "authenticated") {
-      router.push(`/${params.locale}/onboarding`);
-    } else {
-      router.push(`/${params.locale}/sign-in`);
-    }
+    router.push(`/${params.locale}/${status === "authenticated" ? "onboarding" : "sign-in"}`);
   };
   const handleSignOut = () => {
     if (status === "authenticated") {

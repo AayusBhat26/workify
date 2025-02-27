@@ -19,7 +19,7 @@ export const Final = () => {
     const { mutate: completeOnboarding, isPending } = useMutation({
         mutationFn: async () => {
             const { data } = await axios.post("/api/onboarding", {
-                name, surname, useCase, workspaceImage, workspaceName
+                name, surname, useCase, workspaceImage, workspaceName, 
             });
             return data;
         },
@@ -34,7 +34,7 @@ export const Final = () => {
         onSuccess: async () => {
             toast({
                 title: m("SUCCESS.ONBOARDING_COMPLETE"),
-                variant: "destructive"
+                variant: "default"
             });
             await update();
             router.push("/dashboard");
