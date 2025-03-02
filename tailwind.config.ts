@@ -75,7 +75,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require("tailwind-scrollbar")],
 };
 export default withUt(config);
 // This file is the entry point for the Tailwind CSS configuration. It exports a configuration object that specifies the darkMode option and the content option. The darkMode option is set to ["class"], which enables dark mode support in Tailwind CSS. The content option specifies the files and directories that Tailwind CSS should scan for classes to generate styles for. In this case, it scans the pages, components, and app directories for JavaScript, TypeScript, and MDX files. The theme option is extended to include custom colors for the background and foreground. Finally, the plugins option is left empty, as no additional plugins are used in this configuration.

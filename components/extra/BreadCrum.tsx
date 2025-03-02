@@ -37,7 +37,7 @@ export const BreadCrum = ({ addManualRoutes, workspaceHref }: Props) => {
             {addManualRoutes.map((route, i) => {
               return (
                 <div
-                  className="flex items-center sm:gap-0.5 text-sm sm:text-base"
+                  className="flex  items-center sm:gap-0.5 text-sm sm:text-base"
                   key={i}
                 >
                   {i + 1 < addManualRoutes.length ? (

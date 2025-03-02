@@ -27,7 +27,7 @@ export const ThemeCard = ({ theme, activeTheme, onUpdateTheme }: Props) => {
       onClick={() => onUpdateTheme(theme)}
       className={`${
         activeTheme === theme ? 'border-primary/50' : ''
-      } w-72 hover:bg-accent hover:text-accent-foreground duration-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background`}
+      } w-full max-w-sm sm:max-w-lg sm:w-[calc((100%/2)-1.5rem)] xl:w-[calc((100%/3)-1.5rem)] hover:bg-accent hover:text-accent-foreground duration-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background`}
     >
       <CardHeader className="flex flex-row items-center justify-between space-x-0 space-y-0">
         <div className="flex items-center gap-2 ">

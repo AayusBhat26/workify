@@ -1,3 +1,4 @@
+import Welcome from "@/components/extra/Welcom";
 import { userCompletedOnboarding } from "@/lib/userCompletedOnboarding"
 
 const Dashboard = async () => {
@@ -5,9 +6,9 @@ const Dashboard = async () => {
     console.log(session);
 
     return (
-        <>
-            welcome to your dashboard.
-        </>
+        <div>
+            <Welcome username="" hideOnDesktop className="px-4 py-2"/>
+        </div>
     )
 };
 export default Dashboard;

@@ -38,7 +38,7 @@ export const Theme = () => {
       {/* <div className="flex flex-row gap-10">
         {views.map((view) => view === 1 && <p classname>view 1</p>)}
       </div> */}
-      <CardContent className="flex flex-row gap-4">
+      <CardContent className="flex flex-wrap justify-center gap-6">
         <ThemeCard onUpdateTheme={setTheme} theme="light" activeTheme={theme} />
         <ThemeCard onUpdateTheme={setTheme} theme="dark" activeTheme={theme} />
         <ThemeCard

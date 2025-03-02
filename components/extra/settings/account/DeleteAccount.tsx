@@ -42,7 +42,6 @@ import { useForm } from 'react-hook-form';
 interface Props {
   userEmail: string;
 }
-
 export const DeleteAccount = ({ userEmail }: Props) => {
   const t = useTranslations('SETTINGS.ACCOUNT');
   const { toast } = useToast();
@@ -62,7 +61,7 @@ export const DeleteAccount = ({ userEmail }: Props) => {
         '/api/profile/delete',
         formData,
       )) as AxiosResponse<DeleteAccountSchema>;
-      
+
       return data;
     },
     onError: (err: AxiosError) => {
