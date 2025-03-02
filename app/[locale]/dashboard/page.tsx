@@ -7,7 +7,7 @@ const Dashboard = async () => {
 
     return (
         <div>
-            <Welcome username="" hideOnDesktop className="px-4 py-2"/>
+            <Welcome username={session?.user.username} name={session?.user.username} surname={session?.user.surname} className="px-4 py-2"/>
         </div>
     )
 };

@@ -1,18 +1,19 @@
 import { Bottom } from './Bottom';
+import { AddWorkspaceButton } from './CreateWorkspace/AddWorkspaceButton';
 import { Top } from './Top';
 import { Workspaces } from './Workspace';
 
 export const ShortcutSidebar = () => {
   return (
-    <div className="border-r h-full flex-col justify-between items-center p-4 sm:py-6 ">
-      <div className="w-full h-2/3">
+    <div className="border-r h-screen flex flex-col justify-between items-center p-4 sm:py-6 border">
+      <div className="flex flex-col items-center gap-4">
         <Top />
         <Workspaces />
-        {/* <h2>dynamic workspace icons</h2> */}
+        <AddWorkspaceButton />
       </div>
-      {/* <h3 className="">bottom content</h3>
-       */}
-      <Bottom />
+      <div className="mt-auto">
+        <Bottom />
+      </div>
     </div>
   );
 };

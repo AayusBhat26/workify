@@ -98,7 +98,8 @@ export const authOptions: NextAuthOptions = {
         if (!validatePassword) {
           throw new Error('Are you sure you own this account?');
         }
-
+        console.log(user);
+        
         return user;
       },
     }),

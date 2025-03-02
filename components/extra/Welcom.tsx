@@ -9,7 +9,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   hideOnMobile?: boolean;
   hideOnDesktop?: boolean;
   showOnlyOnPath?: string;
-  username: string;
+  username?: string | null;
   name?: string | null;
   surname?: string | null;
 }
@@ -34,8 +34,11 @@ const Welcome = React.forwardRef<HTMLDivElement, Props>(
 
     // const dateTime = new Date();
     const t = useTranslations('COMMON');
+    console.log(username);
+    
     if (showOnlyOnPath && pathname !== showOnlyOnPath) return null;
     else {
+      console.log(username, surname, name)
       return (
         <div
           ref={ref}
@@ -55,7 +58,7 @@ const Welcome = React.forwardRef<HTMLDivElement, Props>(
                   ? `${name} ${surname}`
                   : name
                 : username}
-            </span>{' '}
+            </span>{" "}
             👋
           </p>
           
