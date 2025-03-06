@@ -1,7 +1,7 @@
 import { Bottom } from './Bottom';
 import { AddWorkspaceButton } from './CreateWorkspace/AddWorkspaceButton';
 import { Top } from './Top';
-import { Workspaces } from './Workspace';
+import { Workspaces } from './workspaces/Workspaces';
 
 export const ShortcutSidebar = () => {
   return (
