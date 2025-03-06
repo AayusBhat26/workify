@@ -7,8 +7,14 @@ import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AddWorkspaceForm } from "./AddWorkspaceForm";
+import Warning from "@/components/ui/warning";
+import { ActiveWorkspacesInfo } from "@/components/extra/ActiveWorkspacesInfo";
 
-export const AddWorkspaceButton = ()=>{
+interface Props{
+  activeWorkspaces: number; 
+}
+
+export const AddWorkspaceButton = ({activeWorkspaces}: Props)=>{
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("SIDEBAR");
   return <div>
@@ -31,6 +37,9 @@ export const AddWorkspaceButton = ()=>{
               {t("MAIN.NEW_WORKSPACE_DIALOG_DESC")}
             </DialogDescription>
           </DialogHeader>
+          <Warning className="hidden sm:flex" >
+            <ActiveWorkspacesInfo className="text-left text-secondary-foreground" activeNumber={activeWorkspaces} />
+          </Warning>
           <AddWorkspaceForm onSetOpen={setIsOpen} />
         </DialogContent>
       </HoverCard>

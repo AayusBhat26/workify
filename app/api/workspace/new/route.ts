@@ -2,6 +2,7 @@ import { getAuthSession } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { apiWorkspaceSchema } from '@/schema/workspaceSchema';
+import { MAX_WORKSPACES_COUNT } from '@/lib/options';
 export async function POST(request: Request) {
   const session = await getAuthSession();
   if (!session?.user) {
@@ -38,6 +39,11 @@ export async function POST(request: Request) {
       return new NextResponse('User not found', {
         status: 404,
         statusText: 'user not found in the database,',
+      });
+    }
+    if(user.createdWorksapces.length  === MAX_WORKSPACES_COUNT){
+      return new NextResponse("ERRORS.TOO_MANY_WORKSPACES", {
+        status: 402,
       });
     }
     // avoiding same workspace name

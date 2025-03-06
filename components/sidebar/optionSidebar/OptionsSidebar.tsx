@@ -3,8 +3,12 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePathname } from 'next/navigation';
 import { Settings } from './Settings';
+import { ActiveWorkspacesInfo } from '@/components/extra/ActiveWorkspacesInfo';
+interface Props{
+  activeWorkspaces: number;
 
-export const OptionsSidebar = () => {
+}
+export const OptionsSidebar = ({activeWorkspaces}: Props) => {
   const pathname = usePathname();
   if (pathname === '/en/dashboard' || pathname === '/hi/dashboard') return null;
 
@@ -12,6 +16,7 @@ export const OptionsSidebar = () => {
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
       <ScrollArea className="h-full">
         {pathname.includes('/dashboard/settings') && <Settings />}
+        <ActiveWorkspacesInfo activeNumber={activeWorkspaces}/>
         {/* {(pathname === `/dashboard/workspace/${workspaceId}` || */}
         {/* pathname === */}
         {/* `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` || */}
