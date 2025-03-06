@@ -1,9 +1,10 @@
 import { Workspace } from "@prisma/client";
 import { notFound } from "next/navigation";
+export const domain = process.env.NODE_ENV !== "production"  ? "http://localhost:3000": "";
 // single workspace
 export const getWorkspace = async (workspace_name: string, userId: string)=>{
     const res  = await fetch(
-        `http://localhost:3000/api/workspace/get/workspace_details/${workspace_name}?userId=${userId}`,{
+        `${domain}/api/workspace/get/workspace_details/${workspace_name}?userId=${userId}`,{
             method:"GET", 
             cache: "no-store"
         }
@@ -19,7 +20,7 @@ export const getWorkspaces = async (userId: string)=>{
     console.log(userId);
     
     const res  = await fetch(
-        `http://localhost:3000/api/workspace/get/user_workspaces?userId=${userId}`,{
+        `${domain}/api/workspace/get/user_workspaces?userId=${userId}`,{
             method:"GET", 
             cache: "no-store"
         }

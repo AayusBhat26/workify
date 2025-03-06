@@ -87,13 +87,25 @@ model Workspace {
   updatedAt DateTime @updatedAt
   creatorId String?
   image     String?
-
+  color WorkspaceIconColor @default(BLUE)
   Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id], onDelete: Cascade)
   subscribers Subscription[]
 
   @@index([creatorId])
 }
-
+enum WorkspaceIconColor {
+  PURPLE
+  RED
+  GREEN
+  BLUE
+  PINK
+  YELLOW
+  ORANGE
+  CYAN
+  LIME
+  EMERALD
+  INDIGO
+}
 model Subscription {
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
@@ -105,3 +117,4 @@ model Subscription {
   @@index([workspaceId])
   @@index([userId])
 }
+
