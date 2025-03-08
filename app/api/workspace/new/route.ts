@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { apiWorkspaceSchema } from '@/schema/workspaceSchema';
 import { MAX_WORKSPACES_COUNT } from '@/lib/options';
+import { getRandomColor } from '@/lib/getRandomColor';
 export async function POST(request: Request) {
   const session = await getAuthSession();
   if (!session?.user) {
@@ -56,13 +57,20 @@ export async function POST(request: Request) {
             status: 403
         });
     }
-
+    const color = getRandomColor();
    // creating new workspace.
    const newWorkspace = await db.workspace.create({
     data: {
         creatorId: user.id, 
         name: workspaceName, 
-        image: file
+        image: file, 
+        color
+    }
+   });
+   await db.subscription.create({
+    data:{
+      userId: user.id, 
+      workspaceId: newWorkspace.id,
     }
    })
     return NextResponse.json(newWorkspace, {

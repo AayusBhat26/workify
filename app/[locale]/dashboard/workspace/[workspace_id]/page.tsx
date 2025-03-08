@@ -10,7 +10,8 @@ interface Params {
 const Workspace = async ({ params: { workspace_id } }: Params) => {
     const session = await userCompletedOnboarding(`/dashboard/workspace/${workspace_id}`);
     const workspace = await getWorkspace(workspace_id, session.user.id);
-
+    // console.log(workspace);
+    
     return <>
         <HeaderDashboard addManualRoutes={[
             {
@@ -23,8 +24,9 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
                 href: `/dashboard/workspace/${workspace_id}`,
             },
         ]} />
-        <main>
-            {workspace_id}
+        <main className="flex flex-col gap-2">
+            {workspace?.name}
+            {/* {workspace_id} */}
         </main>
     </>
 };
