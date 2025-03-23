@@ -8,13 +8,14 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AddWorkspaceForm } from "./AddWorkspaceForm";
 import Warning from "@/components/ui/warning";
-import { ActiveWorkspacesInfo } from "@/components/extra/ActiveWorkspacesInfo";
+import { CreatedWorkspaceInfo } from "@/components/extra/CreatedWorkspaceInfo";
 
 interface Props{
-  activeWorkspaces: number; 
+  createdWorkspaces: number; 
+  
 }
 
-export const AddWorkspaceButton = ({activeWorkspaces}: Props)=>{
+export const AddWorkspaceButton = ({createdWorkspaces}: Props)=>{
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("SIDEBAR");
   return <div>
@@ -38,7 +39,7 @@ export const AddWorkspaceButton = ({activeWorkspaces}: Props)=>{
             </DialogDescription>
           </DialogHeader>
           <Warning className="hidden sm:flex" >
-            <ActiveWorkspacesInfo className="text-left text-secondary-foreground" activeNumber={activeWorkspaces} />
+            <CreatedWorkspaceInfo className="text-left text-secondary-foreground" createdNumber={createdWorkspaces} />
           </Warning>
           <AddWorkspaceForm onSetOpen={setIsOpen} />
         </DialogContent>

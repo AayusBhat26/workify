@@ -33,7 +33,7 @@ export const BreadCrum = ({ addManualRoutes, workspaceHref }: Props) => {
     return (
       <>
         {addManualRoutes ? (
-          <div className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-center">
+          <div className="flex  flex-col items-start gap-0.5 sm:flex-row sm:items-center ">
             {addManualRoutes.map((route, i) => {
               return (
                 <div

@@ -41,7 +41,7 @@ export const HeaderDashboard = async ({
         className
       )}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-w-[17rem] sm:max-w-4xl">
         <OpenCloseSidebar />
         <Welcom
           hideOnMobile

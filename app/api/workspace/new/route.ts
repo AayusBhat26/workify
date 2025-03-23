@@ -71,6 +71,7 @@ export async function POST(request: Request) {
     data:{
       userId: user.id, 
       workspaceId: newWorkspace.id,
+      userRole : "OWNER"
     }
    })
     return NextResponse.json(newWorkspace, {

@@ -160,7 +160,11 @@
             "IMAGE_PROFILE_DELETE": "Your profile image has been deleted!",
             "ONBOARDING_COMPLETE": "Welcome to Workify!",
             "PASSWORD_CHANGED": "Password has been changed!",
-            "NEW_WORKSPACE": "The workspace has been created!"
+            "NEW_WORKSPACE": "The workspace has been created!", 
+            "WORKSPACE_PICTURE_UPDATED": "Workspace image updated successfully", 
+            "WORKSPACE_PICTURE_DELETED": "Workspace image deleted successfully", 
+            "UPDATED_WORKSPACE": "Workspace data updated successfully",
+            "DELETED_WORKSPACE_INFO": "Workspace deleted successfully"
         },
         "PENDING": {
             "LOADING": "Loading"

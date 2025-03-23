@@ -3,20 +3,21 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePathname } from 'next/navigation';
 import { Settings } from './Settings';
-import { ActiveWorkspacesInfo } from '@/components/extra/ActiveWorkspacesInfo';
+import { CreatedWorkspaceInfo } from '@/components/extra/CreatedWorkspaceInfo';
+import { Workspace } from '@prisma/client';
 interface Props{
-  activeWorkspaces: number;
-
+  createdWorkspaces: number;
+  userAdminWorkspaces: Workspace[];
 }
-export const OptionsSidebar = ({activeWorkspaces}: Props) => {
+export const OptionsSidebar = ({ createdWorkspaces, userAdminWorkspaces}: Props) => {
   const pathname = usePathname();
   if (pathname === '/en/dashboard' || pathname === '/hi/dashboard') return null;
 
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
       <ScrollArea className="h-full">
-        {pathname.includes('/dashboard/settings') && <Settings />}
-        <ActiveWorkspacesInfo activeNumber={activeWorkspaces}/>
+        {pathname.includes('/dashboard/settings') && <Settings userAdminWorkspaces={userAdminWorkspaces} />}
+        <CreatedWorkspaceInfo createdNumber={createdWorkspaces}/>
         {/* {(pathname === `/dashboard/workspace/${workspaceId}` || */}
         {/* pathname === */}
         {/* `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` || */}

@@ -9,8 +9,8 @@ import { ShortcutSidebar } from './shortcutSidebar/ShortcutSidebar';
 
 interface Props {
   userWorkspaces: Workspace[];
-  userId?: string;
-  userAdminWorkspaces?: Workspace[];
+  userId: string;
+  userAdminWorkspaces: Workspace[];
 }
 
 export const SidebarContainer = ({
@@ -19,10 +19,10 @@ export const SidebarContainer = ({
   userAdminWorkspaces,
 }: Props) => {
   const { isOpen, setIsOpen } = useToggleSidebar();
-  // const createdWorkspaces = userWorkspaces.filter(
-  //   (workspace) => workspace.creatorId == userId,
-  // );
-  console.log(userWorkspaces);
+  const createdWorkspaces = userWorkspaces.filter(
+    (workspace) => workspace.creatorId  === userId,
+  );
+  console.log(createdWorkspaces);
   
   return (
     <>
@@ -33,12 +33,12 @@ export const SidebarContainer = ({
       >
         <ShortcutSidebar
         userWorkspaces={userWorkspaces}
-        // createdWorkspaces={createdWorkspaces.length}
+        createdWorkspaces={createdWorkspaces.length}
+        
         />
         <OptionsSidebar
-        activeWorkspaces={userWorkspaces.length}
-        // createdWorkspaces={createdWorkspaces.length}
-        // userAdminWorkspaces={userAdminWorkspaces}
+        createdWorkspaces={createdWorkspaces.length}
+        userAdminWorkspaces={userAdminWorkspaces}
         // userWorkspaces={userWorkspaces}
         />
         <OpenCloseSidebar />

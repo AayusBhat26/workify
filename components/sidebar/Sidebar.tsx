@@ -1,13 +1,15 @@
 import { SidebarContainer } from "./SidebarContainer";
 import { Workspace } from "@prisma/client";
 import { getAuthSession } from "@/lib/auth";
-import { getWorkspace, getWorkspaces } from "@/lib/api";
+import { getUserAdminWorkspaces, getWorkspace, getWorkspaces } from "@/lib/api";
 
 
 export const Sidebar = async () => {
   const session = await getAuthSession();
   if(!session) return null;
-  const userWorkspace = await getWorkspaces(session.user.id)
+  const [userWorkspaces, userAdminWorkspaces] = await Promise.all( [getWorkspaces(session.user.id), getUserAdminWorkspaces(session.user.id)]);
 
-  return <SidebarContainer userWorkspaces={userWorkspace} />;
+  return <SidebarContainer userWorkspaces={userWorkspaces} userId={session.user.id}   
+  userAdminWorkspaces={userAdminWorkspaces}
+  />;
 };

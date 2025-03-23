@@ -7,9 +7,9 @@ services:
     restart: always
     environment:
     
-      POSTGRES_USER: "postgres"
+      POSTGRES_USER: "admin"
       POSTGRES_DB: "workify"
-      POSTGRES_PASSWORD: password 
+      POSTGRES_PASSWORD: admin 
     volumes:
       - database-data:/var/lib/postgresql-data/
     ports:

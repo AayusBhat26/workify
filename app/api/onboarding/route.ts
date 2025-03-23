@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       data: {
         userId: user.id,
         workspaceId: workspace.id,
-        // userRole: 'OWNER',
+        userRole: 'OWNER',
       },
     });
     return NextResponse.json('OK', { status: 200 });
