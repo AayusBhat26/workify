@@ -5,7 +5,7 @@ import { userCompletedOnboarding } from "@/lib/userCompletedOnboarding"
 
 const Onboarding = async () => {
     const session = await userCompletedOnboarding("/onboarding");
-    console.log(session);
+    (session);
 
     return <OnboardingFormProvider session={session}>
         <MoreInfo profileImage={session.user.image} />

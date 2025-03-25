@@ -22,7 +22,7 @@ export const SidebarContainer = ({
   const createdWorkspaces = userWorkspaces.filter(
     (workspace) => workspace.creatorId  === userId,
   );
-  console.log(createdWorkspaces);
+  (createdWorkspaces);
   
   return (
     <>

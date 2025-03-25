@@ -34,11 +34,11 @@ const Welcome = React.forwardRef<HTMLDivElement, Props>(
 
     // const dateTime = new Date();
     const t = useTranslations('COMMON');
-    console.log(username);
+    (username);
     
     if (showOnlyOnPath && pathname !== showOnlyOnPath) return null;
     else {
-      console.log(username, surname, name)
+      (username, surname, name)
       return (
         <div
           ref={ref}

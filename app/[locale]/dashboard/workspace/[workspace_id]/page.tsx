@@ -10,7 +10,7 @@ interface Params {
 const Workspace = async ({ params: { workspace_id } }: Params) => {
     const session = await userCompletedOnboarding(`/dashboard/workspace/${workspace_id}`);
     const workspace = await getWorkspace(workspace_id, session.user.id);
-    // console.log(workspace);
+    // (workspace);
     
     return <>
         <HeaderDashboard addManualRoutes={[

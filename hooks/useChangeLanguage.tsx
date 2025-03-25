@@ -11,7 +11,7 @@ export const changeLanguage = () => {
   const onSelectChange = (nextLocale: 'hi' | 'en') => {
     setIsLoading(true);
     startTransition(() => {
-      console.log(pathname, nextLocale);
+      (pathname, nextLocale);
 
       router.replace(`/${nextLocale}`);
     });

@@ -18,7 +18,7 @@ export const getWorkspace = async (workspace_id: string, userId: string)=>{
 
 
 export const getWorkspaces = async (userId: string)=>{
-    console.log(userId);
+    (userId);
     
     const res  = await fetch(
         `${domain}/api/workspace/get/user_workspaces?userId=${userId}`,{
@@ -26,10 +26,10 @@ export const getWorkspaces = async (userId: string)=>{
             cache: "no-store"
         }
     );
-    // console.log(res);
+    // (res);
     
     if(!res.ok){
-        console.log("could not find");
+        ("could not find");
         
         return [];
     }
@@ -37,7 +37,7 @@ export const getWorkspaces = async (userId: string)=>{
 }
 
 export const getUserAdminWorkspaces = async (userId: string)=>{
-    // console.log(userId); 
+    // (userId); 
     
     const res  = await fetch(
         `${domain}/api/workspace/get/user_admin_workspaces?userId=${userId}`,{
@@ -45,10 +45,10 @@ export const getUserAdminWorkspaces = async (userId: string)=>{
             cache: "no-store"
         }
     );
-    console.log(res);
+    (res);
     
     if(!res.ok){
-        console.log("could not find");
+        ("could not find");
         
         return [];
     }
@@ -56,7 +56,7 @@ export const getUserAdminWorkspaces = async (userId: string)=>{
 }
 
 export const getWorkspaceSetting = async (workspace_id: string,userId: string)=>{
-    // console.log(userId); 
+    // (userId); 
     
     const res  = await fetch(
         `${domain}/api/workspace/get/settings/${workspace_id}?userId=${userId}`,{
@@ -64,7 +64,7 @@ export const getWorkspaceSetting = async (workspace_id: string,userId: string)=>
             cache: "no-store"
         }
     );
-    // console.log(res);
+    // (res);
     
     if(!res.ok){
         return notFound();

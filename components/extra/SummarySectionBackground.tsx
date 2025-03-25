@@ -1219,7 +1219,7 @@ class App {
 
     if (this.options.isHyper) {
       // Just to show it works:
-      console.log(this.options.isHyper);
+      (this.options.isHyper);
     }
   }
 

@@ -3,7 +3,7 @@ import { getAuthSession } from './auth';
 
 export const userCompletedOnboarding = async (currentPath: string) => {
   const session = await getAuthSession();
-  console.log('session: ', session);
+  ('session: ', session);
   if (!session) redirect('/');
   if (session.user.moveToDashboard && currentPath === '/onboarding') redirect('/dashboard');
   if (!session.user.moveToDashboard && currentPath !== '/onboarding')

@@ -11,15 +11,15 @@ interface Params {
 }
 
 const Workspace = async ({ params: { workspace_id } }: Params) => {
-    console.log(`Fetching data for workspace_id: ${workspace_id}`);
+    (`Fetching data for workspace_id: ${workspace_id}`);
 
     const session = await userCompletedOnboarding(
         `/dashboard/settings/workspace/${workspace_id}`
     );
-    console.log(`Session data:`, session);
+    (`Session data:`, session);
 
     const workspace = await getWorkspaceSetting(workspace_id, session.user.id);
-    console.log(`Workspace data:`, workspace);
+    (`Workspace data:`, workspace);
 
     if (!workspace) {
         console.error(`Workspace not found for workspace_id: ${workspace_id}`);
