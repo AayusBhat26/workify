@@ -5,7 +5,8 @@ import { db } from '@/lib/db';
 import { onboardingSchema } from '@/schema/onboardingSchema';
 import { v4 as uuidv4 } from 'uuid';
 import { NextResponse } from 'next/server';
-import { UseCase as UseCaseType } from '@prisma/client';
+import { UseCase as UseCaseType, WorkspaceIconColor } from '@prisma/client';
+import { colors, getRandomColor } from '@/lib/getRandomColor';
 export async function POST(request: Request) {
   const session = await getAuthSession();
   if (!session?.user) {
@@ -55,11 +56,11 @@ export async function POST(request: Request) {
         creatorId: user.id,
         name: workspaceName,
         image: workspaceImage,
-        // inviteCode: uuidv4(),
-        // adminCode: uuidv4(),
-        // canEditCode: uuidv4(),
-        // readOnlyCode: uuidv4(),
-        // colors:getRam
+        inviteCode: uuidv4(),
+        adminCode: uuidv4(),
+        canEditCode: uuidv4(),
+        readOnlyCode: uuidv4(),
+        color: WorkspaceIconColor["RED"]
       },
     });
     await db.subscription.create({

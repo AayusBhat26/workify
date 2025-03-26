@@ -1,5 +1,5 @@
  import { SettingsWorkspace } from "@/types/extended";
-import { Workspace } from "@prisma/client";
+import { UserPermissions, Workspace } from "@prisma/client";
 import { notFound } from "next/navigation";
 export const domain = process.env.NODE_ENV !== "production"  ? "http://localhost:3000": "http://localhost:3000";
 // single workspace
@@ -71,3 +71,20 @@ export const getWorkspaceSetting = async (workspace_id: string,userId: string)=>
     }
     return res.json() as Promise<SettingsWorkspace>;
 }
+
+export const getUserWorkspaceRole = async (workspace_id: string,userId: string)=>{
+    const res = await fetch(
+        `${domain}/api/workspace/get/user_role?workspaceId=${workspace_id}&userId=${userId}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        }
+      );
+    
+      if (!res.ok) {
+        return null;
+      }
+    
+      return res.json() as Promise<UserPermissions>;
+}
+

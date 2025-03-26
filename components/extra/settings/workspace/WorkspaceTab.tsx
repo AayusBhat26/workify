@@ -5,6 +5,7 @@ import { Layers, Users2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { EditWorkspaceCard } from "./overview/Edit/EditWorkspaceCard";
 import { DeleteWorkspace } from "./overview/DeleteWorkspace";
+import { MembersCard } from "./members/MembesCard";
 // import { DeleteWorkspace } from "./overview/DeleteWorkspace";
 // import { MembersCard } from "./members/MembersCard";
 
@@ -35,7 +36,7 @@ export const WorkspaceTab = ({ workspace, workspaceId }: Props) => {
       </TabsContent>
       <TabsContent value="members">
         <h1>members content</h1>
-        {/* <MembersCard workspace={workspace} workspaceId={workspaceId} /> */}
+        <MembersCard workspace={workspace} workspaceId={workspace.id} />
       </TabsContent>
     </Tabs>
   );

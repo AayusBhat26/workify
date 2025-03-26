@@ -89,6 +89,10 @@ model Workspace {
   creatorId String?
   image     String?
   color WorkspaceIconColor @default(BLUE)
+  inviteCode String @unique 
+  adminCode String @unique 
+  canEditCode String @unique 
+  readOnlyCode String @unique 
   Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id], onDelete: Cascade)
   subscribers Subscription[]
 

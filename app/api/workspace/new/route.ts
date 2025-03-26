@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { apiWorkspaceSchema } from '@/schema/workspaceSchema';
 import { MAX_WORKSPACES_COUNT } from '@/lib/options';
 import { getRandomColor } from '@/lib/getRandomColor';
+import { v4 as uuidv4 } from "uuid";
 export async function POST(request: Request) {
   const session = await getAuthSession();
   if (!session?.user) {
@@ -64,7 +65,11 @@ export async function POST(request: Request) {
         creatorId: user.id, 
         name: workspaceName, 
         image: file, 
-        color
+        color,
+        inviteCode: uuidv4(), 
+        adminCode: uuidv4(), 
+        canEditCode: uuidv4(), 
+        readOnlyCode: uuidv4() 
     }
    });
    await db.subscription.create({

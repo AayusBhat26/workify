@@ -164,7 +164,8 @@
             "WORKSPACE_PICTURE_UPDATED": "Workspace image updated successfully", 
             "WORKSPACE_PICTURE_DELETED": "Workspace image deleted successfully", 
             "UPDATED_WORKSPACE": "Workspace data updated successfully",
-            "DELETED_WORKSPACE_INFO": "Workspace deleted successfully"
+            "DELETED_WORKSPACE_INFO": "Workspace deleted successfully", 
+            "REGENERATED_LINK":"Invite URL is regenerated successfully."
         },
         "PENDING": {
             "LOADING": "Loading"

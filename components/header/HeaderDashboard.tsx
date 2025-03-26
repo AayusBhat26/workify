@@ -62,12 +62,14 @@ export const HeaderDashboard = async ({
       </div>
       <div className="flex items-center gap-1 sm:gap-2">
        
-
+      <div className="flex flex-wrap items-center gap-0.5 sm:gap-1">
+          {children}
         <HeaderUser
           profileImage={session?.user.image}
           username={session.user.username!}
           email={session.user.email!}
         />
+        </div>
       </div>
     </header>
   );
