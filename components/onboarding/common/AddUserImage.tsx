@@ -4,13 +4,13 @@ import {
     Dialog,
     DialogContent,
     DialogHeader,
+    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Camera, Check, Trash, User } from 'lucide-react';
 import { useUploadThing } from "@/lib/uploadthing"
 import React, { useMemo, useRef, useState } from 'react';
 import { UserAvatar } from '@/components/ui/user-avatar';
-import { DialogTitle } from '@radix-ui/react-dialog';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { imageSchema, ImageSchema } from '@/schema/imageSchema';

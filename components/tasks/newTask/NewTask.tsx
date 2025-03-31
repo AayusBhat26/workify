@@ -1,0 +1,9 @@
+import { Editor } from "@/components/editor/Editor";
+
+interface Props {
+    workspaceId: string;
+  }
+  
+  export const NewTask = ({ workspaceId }: Props) => {
+    return <Editor/>;
+  };

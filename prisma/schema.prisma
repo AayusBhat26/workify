@@ -25,6 +25,8 @@ model User {
   createdWorksapces Workspace[]    @relation("CreatedBy")
   subscriptions     Subscription[]
   usecase           UseCase?
+  updatedTasks      Task[] @relation(name: "TaskUpdatedByUser")
+  createdTasks      Task[] @relation(name: "TaskCreatedByUser")
 }
 
 model Account {
@@ -95,8 +97,43 @@ model Workspace {
   readOnlyCode String @unique 
   Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id], onDelete: Cascade)
   subscribers Subscription[]
+  tasks       Task[]
 
   @@index([creatorId])
+}
+
+
+model Task{
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedBy User @relation(name: "TaskUpdatedByUser", fields: [updatedUserId], references: [id])
+  updatedUserId String
+  creator User @relation(name: "TaskCreatedByUser", fields: [creatorId], references: [id])
+  creatorId String
+
+  Workspace Workspace? @relation(fields: [workspaceId], references: [id])
+
+  workspaceId String?
+
+  title String?
+
+  emoji String
+  content Json
+  tags Tag[]
+  @@index([updatedUserId])
+  @@index([creatorId])
+  @@index([workspaceId])
+}
+model Tag{
+  id String @id @default(cuid())
+  name String
+  isActive Boolean
+  color WorkspaceIconColor
+  task  Task? @relation(fields: [taskId], references: [id])
+  taskId String?
+
+
+  @@index([taskId])
 }
 enum WorkspaceIconColor {
   PURPLE

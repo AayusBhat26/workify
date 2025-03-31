@@ -1,5 +1,6 @@
 'use client';
 
+import { pathnames } from '@/navigation';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -44,7 +45,7 @@ export const BreadCrum = ({ addManualRoutes, workspaceHref }: Props) => {
                     <>
                       <Link
                         className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background rounded-md sm:px-2 px-1 py-1 transition-colors duration-200 hover:bg-accent"
-                        href={route.href}
+                        href={workspaceHref && pathNames.length-1 ? workspaceHref : route.href}
                       >
                         {route.useTranslate ? t(route.name) : route.name}
                       </Link>
