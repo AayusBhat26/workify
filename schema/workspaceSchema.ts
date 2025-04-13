@@ -20,7 +20,7 @@ export const color = z.enum([
   'LIME',
   'EMERALD',
   'INDIGO',
-  'FUCHSIA',
+  // 'FUCHSIA',
 ]);
 
 const workspaceName = z

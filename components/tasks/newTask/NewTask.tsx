@@ -5,5 +5,5 @@ interface Props {
   }
   
   export const NewTask = ({ workspaceId }: Props) => {
-    return <Editor/>;
+    return <Editor workspaceId={workspaceId} initialActiveTags={[]}/>;
   };

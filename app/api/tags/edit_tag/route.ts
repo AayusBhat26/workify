@@ -1,12 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { deleteAccountSchema } from "@/schema/deleteAccount";
-import {
-  apiWorkspaceDeletePicture,
-  apiWorkspaceEditData,
-  apiWorkspacePicture,
-} from "@/schema/workspaceSchema";
-import { WorkspaceIconColor } from "@prisma/client";
+import { apiTagSchema } from "@/schema/tagSchema";
+
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -20,14 +15,14 @@ export async function POST(request: Request) {
   }
 
   const body: unknown = await request.json();
-  const result = apiWorkspaceEditData.safeParse(body);
+  const result = apiTagSchema.safeParse(body);
 
   if (!result.success) {
     return NextResponse.json("ERRORS.WRONG_DATA", { status: 401 });
   }
 
-  const { id, color, workspaceName } = result.data;
-
+  const { id, color, tagName, workspaceId } = result.data;
+  
   try {
     const user = await db.user.findUnique({
       where: {
@@ -36,7 +31,7 @@ export async function POST(request: Request) {
       include: {
         subscriptions: {
           where: {
-            workspaceId: id,
+            workspaceId: workspaceId,
           },
           select: {
             userRole: true,
@@ -52,25 +47,51 @@ export async function POST(request: Request) {
       });
     }
 
-    if (
-      user.subscriptions[0].userRole === "CAN_EDIT" ||
-      user.subscriptions[0].userRole === "READ_ONLY"
-    ) {
+    if (user.subscriptions[0].userRole === "READ_ONLY") {
       return NextResponse.json("ERRORS.NO_PERMISSION", { status: 403 });
     }
 
-    await db.workspace.update({
+    const workspace = await db.workspace.findUnique({
       where: {
-        id,
+        id: workspaceId,
       },
-      data: {
-        name: workspaceName,
-        color:color as WorkspaceIconColor,
+      include: {
+        tags: {
+          where: {
+            workspaceId,
+          },
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
-    return NextResponse.json(result.data, { status: 200 });
-  } catch (_) {
+    if (!workspace)
+      return NextResponse.json("ERRORS.NO_WORKSPACE", { status: 404 });
+
+    const tag = await db.tag.findUnique({
+        where:{
+            id,
+        }
+    });
+    if(!tag){
+        return NextResponse.json("ERRORS.NO_TAG", { status: 404 });
+    }
+
+    const updatedTag = await db.tag.update({
+        where:{
+            id 
+        },
+      data: {
+        color,
+        name: tagName,
+      },
+    });
+
+    return NextResponse.json(updatedTag, { status: 200 });
+  } catch (err) {
+    console.log(err);
     return NextResponse.json("ERRORS.DB_ERROR", { status: 405 });
   }
 }

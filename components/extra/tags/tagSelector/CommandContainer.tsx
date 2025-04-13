@@ -14,35 +14,30 @@ import { useState } from "react";
 import { WorkspaceIconColor, Tag } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { CommandTagItem } from "./CommandTagItem";
-import { NewTag } from "./NewTag";
-import { EditTag } from "./EditTag";
-// import { CreateNewTagOrEditTag } from "./CreateNewTagorEditTag";
+import { CreateNewTagOrEditTag } from "./CreateNewOrEditTag";
+// import { EditT ag } from "./EditTag";
 
 interface Props {
   tags?: Tag[];
   currentActiveTags: Tag[];
   onSelectActiveTag: (id: string) => void;
   workspaceId: string;
-  onUpdateActiveTags: (
-    tagId: string,
-    color: WorkspaceIconColor,
-    name: string
-  ) => void;
-  onDeleteActiveTag: (tagId: string) => void;
+  onUpdateActiveTags?: (tagId: string, color: WorkspaceIconColor, name: string) => void;  
+  onDeleteActiveTag?: (tagId: string) => void;
 }
 
-export const CommandContainer = () => {
+export const CommandContainer = ({tags, currentActiveTags, onSelectActiveTag, workspaceId, onUpdateActiveTags, onDeleteActiveTag}:Props) => {
   const [tab, setTab] = useState<"list" | "newTag" | "editTag">("list");
   const onSetTab = (tab: "list" | "newTag" | "editTag") => {
     setTab(tab);
   };
-//   const [editedTagInfo, setEditedTagInfo] = useState<null | Tag>(null);
+  const [editedTagInfo, setEditedTagInfo] = useState<null | Tag>(null);
   const t = useTranslations("TASK.HEADER.TAG");
 
-  // const onEditTagInfoHandler = (tag: Tag) => {
-  //   setEditedTagInfo(tag);
-  //   setTab("editTag");
-  // };
+  const onEditTagInfoHandler = (tag: Tag) => {
+    setEditedTagInfo(tag);
+    setTab("editTag");
+  };
 
 
   return (
@@ -51,8 +46,8 @@ export const CommandContainer = () => {
         <>
           <CommandInput className="text-xs" placeholder={t("FILTER")} />
           <CommandList>
-            <CommandEmpty>{t("NOT_FOUND")}</CommandEmpty>
-            {/* {tags && tags?.length > 0 && (
+            <CommandEmpty>No result found</CommandEmpty>
+            {tags && tags?.length > 0 && (
               <>
                 <CommandGroup heading={t("TAGS_HEADING")}>
                   {tags?.map((tag) => (
@@ -65,10 +60,16 @@ export const CommandContainer = () => {
                     />
                   ))}
                 </CommandGroup>
-              </> */}
-            {/* )} */}
+              </>
+            )}
+
             <CommandGroup heading="TAGS">
-              <CommandTagItem/>
+              {tags?.map((tag)=>(
+                <CommandTagItem key={tag.id} tag={tag} currentActiveTags={currentActiveTags} onSelectActiveTag={onSelectActiveTag}
+                  onEditTagInfo={onEditTagInfoHandler} 
+                  // onUpdateActiveTags={onUpdateActiveTags}
+                />
+              ))}
             </CommandGroup>
             <CommandSeparator />
             <CommandGroup heading={t("NEW_HEADING")}>
@@ -89,6 +90,16 @@ export const CommandContainer = () => {
           </CommandList>
         </>
       )}
+      {tab === "newTag" &&(<CreateNewTagOrEditTag onSetTab={onSetTab} workspaceId={workspaceId} />) }
+      {tab === "editTag" && <CreateNewTagOrEditTag edit workspaceId={workspaceId} color={editedTagInfo?.color} id={editedTagInfo?.id}
+      tagName={editedTagInfo?.name}
+      onSetTab={onSetTab}
+      onUpdateActiveTags={onUpdateActiveTags}
+      onDeleteActiveTag={onDeleteActiveTag}
+      currentActiveTags={currentActiveTags}
+      onSelectActiveTag={onSelectActiveTag}
+      />}
+
       {/* {tab === "newTag" && (
         <CreateNewTagOrEditTag onSetTab={onSetTab} workspaceId={workspaceId} />
       )}
@@ -106,8 +117,8 @@ export const CommandContainer = () => {
           onSelectActiveTag={onSelectActiveTag}
         />
       )} */}
-      {tab === "newTag" && <NewTag onSetTab={onSetTab}/>}
-      {tab === "editTag" && <EditTag/>}
+      {/* {tab === "newTag" && <NewTag onSetTab={onSetTab} workspaceId={workspaceId}/>} */}
+
     </Command>
   );
 };

@@ -6,7 +6,14 @@ export default getRequestConfig(async ({ requestLocale }) => {
   if (!locale) {
     throw new Error("Locale is undefined");
   }
-  const messages = (await import(`./messages/${locale}.json`)).default;
+  let messages = {};
+  try {
+messages = (await import(`./messages/${locale}.json`)).default;
+} catch (error) {
+    console.error(`Error loading messages for locale ${locale}:`, error);
+    // Fallback to an empty messages object.
+    messages = {};
+  }
   return {
     locale,
     messages,

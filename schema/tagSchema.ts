@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { color } from "./workspaceSchema";
+import { WorkspaceIconColor } from "@prisma/client";
 
 const tagName = z
   .string()

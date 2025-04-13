@@ -25,8 +25,8 @@ model User {
   createdWorksapces Workspace[]    @relation("CreatedBy")
   subscriptions     Subscription[]
   usecase           UseCase?
-  updatedTasks      Task[] @relation(name: "TaskUpdatedByUser")
-  createdTasks      Task[] @relation(name: "TaskCreatedByUser")
+  updatedTasks      Task[]         @relation(name: "TaskUpdatedByUser")
+  createdTasks      Task[]         @relation(name: "TaskCreatedByUser")
 }
 
 model Account {
@@ -84,57 +84,58 @@ enum UseCase {
 }
 
 model Workspace {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  creatorId String?
-  image     String?
-  color WorkspaceIconColor @default(BLUE)
-  inviteCode String @unique 
-  adminCode String @unique 
-  canEditCode String @unique 
-  readOnlyCode String @unique 
-  Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id], onDelete: Cascade)
-  subscribers Subscription[]
-  tasks       Task[]
+  id           String             @id @default(cuid())
+  name         String
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  creatorId    String?
+  image        String?
+  color        WorkspaceIconColor @default(BLUE)
+  inviteCode   String             @unique
+  adminCode    String             @unique
+  canEditCode  String             @unique
+  readOnlyCode String             @unique
+  Creator      User?              @relation("CreatedBy", fields: [creatorId], references: [id], onDelete: Cascade)
+  subscribers  Subscription[]
+  tasks        Task[]
+  tags         Tag[]
 
   @@index([creatorId])
 }
 
-
-model Task{
-  id String @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedBy User @relation(name: "TaskUpdatedByUser", fields: [updatedUserId], references: [id])
-  updatedUserId String
-  creator User @relation(name: "TaskCreatedByUser", fields: [creatorId], references: [id])
-  creatorId String
+model Task {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedBy     User?     @relation(name: "TaskUpdatedByUser", fields: [updatedUserId], references: [id])
+  updatedUserId String?
+  creator       User     @relation(name: "TaskCreatedByUser", fields: [creatorId], references: [id])
+  creatorId     String
 
   Workspace Workspace? @relation(fields: [workspaceId], references: [id])
 
-  workspaceId String?
+  workspaceId String
 
   title String?
 
-  emoji String
-  content Json
-  tags Tag[]
+  emoji   String?
+  content Json?
+  tags    Tag[]
+
   @@index([updatedUserId])
   @@index([creatorId])
   @@index([workspaceId])
 }
-model Tag{
+
+model Tag {
   id String @id @default(cuid())
   name String
-  isActive Boolean
+  tasks Task[]
   color WorkspaceIconColor
-  task  Task? @relation(fields: [taskId], references: [id])
-  taskId String?
-
-
-  @@index([taskId])
+  workspace Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+  @@index([workspaceId])
 }
+
 enum WorkspaceIconColor {
   PURPLE
   RED
@@ -148,6 +149,7 @@ enum WorkspaceIconColor {
   EMERALD
   INDIGO
 }
+
 model Subscription {
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
@@ -159,4 +161,3 @@ model Subscription {
   @@index([workspaceId])
   @@index([userId])
 }
-

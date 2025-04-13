@@ -1,6 +1,6 @@
 "use client";
 import { Badge } from "@/components/ui/badge"
-import { Logo } from "./Logo"
+import { Logo } from "../Logo"
 import ContentEditable, {ContentEditableEvent} from "react-contenteditable";
 import { useState } from "react";
 export const Title = ()=>{
