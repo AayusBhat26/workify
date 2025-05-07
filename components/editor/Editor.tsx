@@ -11,8 +11,9 @@ import { Logo } from "./Logo";
 import TextareAutoSize from "react-textarea-autosize";
 import { TaskCalendar } from "./TasksCalendar";
 import { DateRange } from "react-day-picker";
-import { TagSelector } from "../extra/tags/tagSelector/TagSelector";
-import { LinkTag } from "../extra/tags/LinkTag";
+import { TagSelector } from "../tasks/tags/tagSelector/TagSelector";
+import { LinkTag } from "../tasks/tags/LinkTag";
+import { EditorTasks } from "../tasks/editor/Editor";
 interface Props{
     workspaceId: string; 
     initialActiveTags?: Tag[];
@@ -135,6 +136,7 @@ export const Editor = ({workspaceId, initialActiveTags}: Props)=>{
                         </div>
                     </div>
                     <Container />
+                    <EditorTasks/>
                 </CardContent>
                 <button type="submit">Button</button>
             </form>
